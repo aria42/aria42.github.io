@@ -1,47 +1,41 @@
 inc:
   # Blog Information
-  title:        "Jekyll Incorporated"
-  subtitle:     "Modern Jekyll based blog for companies"
+  title:        "aria42"
+  subtitle:     "Musings on everything and then some"
   cover_image:  blog-cover.jpg
   logo:         logo.png
-  
+
   # Company information
-  company:      Incorporated
-  url:          http://sendtoinc.com/
-  facebook:     sendtoinc
-  twitter:      sendtoinc
-  gplus:        '101183822199340201470'
-  about_link:   https://sendtoinc.com/about/
-  
+  company:      aria42.com
+  url:          http://aria42.com/
+  facebook:     aria42
+  twitter:      aria42
+  about_link:   http://aria42.com/about/
+
   # Product Information
-  product_link: http://incorporated.sendtoinc.com/
-  tagline:      "Get a modern blog for your company"
-  
-  # Comments
-  disqus:
-    # Eg. "exampleblog" Set to false to disable comments
-    shortname:  false
-  
+  # product_link: http://aria42.com
+  tagline:      "Musings on everything and then some"
+
+
   # Sharing settings
   sharing:
-    twitter:    false
-    facebook:   false
+    twitter:    true
+    facebook:   true
     gplus:      false
-    hn:         false
-    
-  
- # Analytics     
+    hn:         true
+
+ # Analytics
   analytics:
     google: false # Add tracking code in _includes/_google-analytics.html
-      
-      
+
+
   # Google Fonts
   # eg. 'Droid+Sans:400,700|Droid+Serif:400,700'
   google_font: 'Droid+Sans:400,700'
-  
+
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
-url:         http://incorporated.sendtoinc.com
+url:         http://aria42.com
 source:      .
 destination: ./_site
 plugins:     ./_plugins
@@ -62,7 +56,8 @@ permalink:     pretty
 paginate_path: 'page:num'
 paginate: 10
 
-markdown:      maruku
+markdown: kramdown
+pygments: true
 markdown_ext:  markdown,mkd,mkdn,md
 textile_ext:   textile
 
