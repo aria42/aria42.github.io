@@ -7,8 +7,8 @@
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="Logo" sketch:type="MSLayerGroup" transform="translate(0.000000, 1.000000)">
             <circle id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="15" cy="14.7518928" r="15"></circle>
-            <text id="42" fill="#FFFFFF" sketch:type="MSTextLayer" font-family="Helvetica" font-size="24" font-weight="bold" sketch:alignment="middle">
-                <tspan x="1.18356123" y="23">42</tspan>
+            <text id="42" fill="#FFFFFF" sketch:type="MSTextLayer" font-family="Helvetica" font-size="19" font-weight="bold" sketch:alignment="middle">
+                <tspan x="3.96432295" y="21">42</tspan>
             </text>
         </g>
     </g>
