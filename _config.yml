@@ -3,7 +3,7 @@ inc:
   title:        "aria42"
   subtitle:     "Musings on everything and then some"
   cover_image:  blog-cover.jpg
-  logo:         logo.png
+  logo:         logo.svg
 
   # Company information
   company:      aria42.com
@@ -20,7 +20,7 @@ inc:
   # Sharing settings
   sharing:
     twitter:    true
-    facebook:   true
+    facebook:   false
     gplus:      false
     hn:         true
 
@@ -35,7 +35,7 @@ inc:
 
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
-url:         http://aria42.com
+url:         http://localhost:4000
 source:      .
 destination: ./_site
 plugins:     ./_plugins

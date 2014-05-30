@@ -9,6 +9,7 @@ status: publish
 latex: true
 type: post
 published: true
+excerpt: ""
 meta:
   _edit_last: '1'
   superawesome: 'false'

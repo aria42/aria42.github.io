@@ -9,6 +9,7 @@ tags:
 status: publish
 type: post
 published: true
+excerpt: ""
 ---
 There's a divide I've noticed amongst people lumped into a "computer science" department. Compactly, I think there are computer scientists and computational scientists; the knowledge base of these groups is rapidly diverging and CS departments should do a better job catering to each's needs.
 
