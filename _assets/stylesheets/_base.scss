@@ -33,8 +33,7 @@ h1, h2 {
 
 a.home {
     color:$accent;
-    text-decoration:none;
-    transition:all 0.2s ease;
+    text-decoration:none;    
 
     &:hover {
         color:darken($accent, 50%);
