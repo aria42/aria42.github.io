@@ -43,6 +43,13 @@
             &:hover {
                 color:$accent;
             }
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+            svg:hover ellipse {
+              fill:$accent;
+            }
         }
 
         > a, .dropdown-toggle  {
