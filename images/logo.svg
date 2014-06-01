@@ -5,10 +5,10 @@
     <description>Created with Sketch.</description>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Logo" sketch:type="MSLayerGroup" transform="translate(0.000000, 0.483820)">
-            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="7.25730202" cy="7.13726279" rx="7.25730202" ry="7.25730202"></ellipse>
-            <text id="42" fill="#FFFFFF" sketch:type="MSTextLayer" font-family="Helvetica" font-size="9.08695652" font-weight="bold" sketch:alignment="middle">
-                <tspan x="1.97676344" y="9.96764027">42</tspan>
+        <g id="Logo" sketch:type="MSLayerGroup" transform="translate(0.000000, -1.516180)">
+            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="7.52487868" cy="8.93776746" rx="7.06223254" ry="7.06223254"></ellipse>
+            <text id="42" fill="#FFFFFF" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="15.086957" font-weight="normal" sketch:alignment="middle">
+                <tspan x="0.696709709" y="11.0033172">42</tspan>
             </text>
         </g>
     </g>
