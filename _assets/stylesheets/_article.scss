@@ -159,6 +159,10 @@ article {
 
         a {
             border:0;
+            color:black;
+            &:hover {
+              color:$accent;
+            }
         }
     }
 
