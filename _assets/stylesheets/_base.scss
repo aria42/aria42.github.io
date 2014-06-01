@@ -33,7 +33,7 @@ h1, h2 {
 
 a.home {
     color:$accent;
-    text-decoration:none;    
+    text-decoration:none;
 
     &:hover {
         color:darken($accent, 50%);
@@ -67,7 +67,7 @@ a.home {
 }
 
 .index {
-    margin:0 5em;
+    margin:0 1em;
 
     > div{
         display:table-cell;
