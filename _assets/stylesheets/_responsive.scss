@@ -92,9 +92,13 @@
 
     .site-nav {
         #navigation {
-            .brand {
-                display:inline-block;
-            }
+          .brand {
+              display:inline-block;
+          }
+
+          a.nav-text-button {
+            font-size: 15px;
+          }
         }
     }
 
