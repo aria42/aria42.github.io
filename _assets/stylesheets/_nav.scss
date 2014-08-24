@@ -47,7 +47,13 @@
               width: 40px;
               height: 40px;
             }
+            svg tspan {
+              fill:$background;
+            }
             svg:hover ellipse {
+              fill:$accent;
+            }
+            svg:hover path {
               fill:$accent;
             }
         }

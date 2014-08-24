@@ -1,0 +1,17 @@
+- title: Event Discovery in Social Media Feeds
+  authors: ["Edward Benson", "Aria Haghighi", "Regina Barzilay"]
+  pdf: http://people.csail.mit.edu/regina/my_papers/twitter_acl2011.pdf
+  abstract: "We present a novel method for record extrac- tion from social streams such as Twitter. Un- like typical extraction setups, these environ- ments are characterized by short, one sentence messages with heavily colloquial speech. To further complicate matters, individual mes- sages may not express the full relation to be uncovered, as is often assumed in extraction tasks. We develop a graphical model that ad- dresses these problems by learning a latent set of records and a record-message alignment si- multaneously; the output of our model is a set of canonical records, the values of which are consistent with aligned messages. We demonstrate that our approach is able to accu- rately induce event records from Twitter mes- sages, evaluated against events from a local city guide. Our method achieves significant error reduction over baseline methods"
+  conference: ACL 2011
+
+- title: Content Models with Attitude
+  authors: ["Christina Sauper", "Aria Haghighi", "Regina Barzilay"]
+  pdf: http://people.csail.mit.edu/regina/my_papers/content_acl2011.pdf
+  abstract: "We present a probabilistic topic model for jointly identifying properties and attributes of social media review snippets. Our model simultaneously learns a set of properties of a product and captures aggregate user senti- ments towards these properties. This approach directly enables discovery of highly rated or inconsistent properties of a product. Our model admits an efficient variational mean- field inference algorithm which can be paral- lelized and run on large snippet collections. We evaluate our model on a large corpus of snippets from Yelp reviews to assess property and attribute prediction. We demonstrate that it outperforms applicable baselines by a con- siderable margin."
+  conference: ACL 2011
+
+- title: "Modeling Syntactic Context Improves Morphological Segmentation"
+  authors: ["Yeong Keok Lee","Aria Haghighi","Regina Barzilay"]
+  pdf: http://people.csail.mit.edu/regina/my_papers/morph_conll2011.pdf
+  abstract: "The connection between part-of-speech (POS) categories and morphological properties is well-documented in linguistics but underuti- lized in text processing systems. This pa- per proposes a novel model for morphologi- cal segmentation that is driven by this connec- tion. Our model learns that words with com- mon affixes are likely to be in the same syn- tactic category and uses learned syntactic cat- egories to refine the segmentation boundaries of words. Our results demonstrate that incor- porating POS categorization yields substantial performance gains on morphological segmen- tation of Arabic."
+  conference: CoNLL 2011

@@ -1,0 +1,31 @@
+---
+layout: base
+title: Publications
+---
+<article class="container">
+    <section class="title"><h1>Academic Papers</h1></section>
+{% for paper in site.data.papers %}
+    <section class="index">
+        <!-- {% if post.author.image %}<img src="/images/{{ post.author.image }}" class="avatar">{% endif %}-->
+        <div class="academic-paper">
+            <h2 class="title">{{ paper.title }}</h2>
+						<span><i>{{ paper.authors | array_to_sentence_string  }}</i></span>
+						{% if paper.conference %}
+            <br>
+						<span> In proceedings of {{ paper.conference }}</span>
+						{% endif %}
+						<div class="toggler">
+							<ul>
+								{% if paper.abstract %}<li><a onclick="javascript:toggleAbstract(this)">Abstract</li>{% endif %}
+								{% if paper.pdf %} <li><a href="{{ paper.pdf }}">PDF</a></li> {% endif %}
+								{% if paper.slides %}<li><a href="{{ paper.pdf }}">Slides</a></li> {% endif %}
+							</ul>
+						</div>
+						<div class="abstract">
+								{{ paper.abstract }}
+						</div>
+        </div>
+        <hr>
+    </section>
+{% endfor %}
+</article>

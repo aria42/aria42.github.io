@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
-    <title>logo</title>
-    <description>Created with Sketch.</description>
+<svg width="157px" height="157px" viewBox="0 0 157 157" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
+    <title>Page-1</title>
+    <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Logo" sketch:type="MSLayerGroup" transform="translate(0.000000, -1.516180)">
-            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="7.52487868" cy="8.93776746" rx="7.06223254" ry="7.06223254"></ellipse>
-            <text id="42" fill="#FFFFFF" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="15.086957" font-weight="normal" sketch:alignment="middle">
-                <tspan x="0.696709709" y="11.0033172">42</tspan>
-            </text>
+        <g id="logo" sketch:type="MSLayerGroup" transform="translate(0.000000, -18.000000)">
+            <g id="Page-1">
+                <g id="Logo" transform="translate(0.000000, 0.342825)">
+                    <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="78.1553734" cy="96.2509475" rx="78.1553734" ry="78.1259475"></ellipse>
+                    <g id="42" transform="translate(1.066667, 0.000000)" font-size="175.479141" font-family="Plantagenet Cherokee" fill="#FFFFFF" sketch:type="MSTextLayer" font-weight="normal">
+                        <text>
+                            <tspan x="-0.356412554" y="122.036697" fill="#000000">42</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
         </g>
     </g>
 </svg>

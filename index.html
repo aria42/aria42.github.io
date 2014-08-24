@@ -23,32 +23,22 @@ layout: base
  -->
 
 <article class="container">
-{% for post in paginator.posts %}
-  {% unless post.draft %}
     <section class="index">
-        <!-- {% if post.author.image %}<img src="/images/{{ post.author.image }}" class="avatar">{% endif %}-->
-        <div>
-            <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
-            <p>{{ post.excerpt }}</p>
-            <div class="meta">
-                <!-- Written By <address>{{ post.author.name }}</address> &mdash; -->
-                <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{ post.date | date: "%B %d, %Y" }}</time>
-            </div>
-        </div>
-        <hr>
-    </section>
-    {% endunless %}
-    {% endfor %}
-    <section class="pagination" style="text-align:center">
-      {% if paginator.previous_page %}
-        {% if paginator.previous_page == 1 %}
-        <a href="/" class="btn btn-outline">‹ Newer</a>
-        {% else %}
-        <a href="/page{{ paginator.previous_page }}" class="btn btn-outline">‹ Newer</a>
-        {% endif %}
-      {% endif %}
-      {% if paginator.next_page %}
-        <a href="/page{{ paginator.next_page }}" class="btn btn-outline">Older ›</a>
-      {% endif %}
+      <section id="profile-nav">
+      <div class="profile" style="background-image:url(/images/aria.jpg); float:left;"></div>
+      <ul style="float-right; list-style:none">
+        <li><a href="blog">Blog</a></li>
+        <li><a href="publications">Academic papers</a></li>
+        <li><a href="posts">Guest talks and posts</a></li>
+      </ul>
+      </section>
+      <section class="about" style="clear:both;">
+      <p>
+      Hi, I'm Aria! I go by <code>aria42</code> wherever I can get the username on the interwebs.
+
+      <p>
+      I'm currently a senior manager at Apple working on none of your business. Before that, I was co-founder and CTO of <a href="http://getprismatic.com">Prismatic</a>.
+Before even that, I was an academic computer scientist in statistical natural language processing and machine learning. Check out my <a href="publications.html">academic papers</a>!
+      </section>
     </section>
 </article>

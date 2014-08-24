@@ -20,8 +20,8 @@ inc:
   # Sharing settings
   sharing:
     twitter:    true
-    facebook:   false
-    gplus:      false
+    facebook:   true
+    gplus:      true
     hn:         true
 
  # Analytics
@@ -48,16 +48,14 @@ timezone:    nil
 future:      false
 show_drafts: nil
 limit_posts: 0
-pygments:    true
 
 relative_permalinks: true
 
 permalink:     pretty
-paginate_path: 'page:num'
+paginate_path: 'blog/page:num'
 paginate: 10
 
 markdown: kramdown
-pygments: true
 markdown_ext:  markdown,mkd,mkdn,md
 textile_ext:   textile
 

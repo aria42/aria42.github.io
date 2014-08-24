@@ -25,6 +25,11 @@
     }(document, 'script'));
 </script>{% endif %}
 <script src="{{ site.url }}/webfonts/ss-social.js"></script>
+<script>
+  function toggleAbstract(elem) {      
+      $(elem).parents(".academic-paper").find(".abstract").toggle();
+  }
+</script>
 {% if site.inc.analytics.google %}
   {% include _google-analytics.html %}
 {% endif %}
