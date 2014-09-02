@@ -35,6 +35,12 @@
     #navigation {
         padding-right:0;
 
+        ul {
+          display: inline;
+          // TODO
+          padding-left: 0px;
+        }
+
         a {
             border:0;
             margin:0 0.3em;

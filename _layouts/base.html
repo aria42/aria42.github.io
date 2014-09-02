@@ -10,10 +10,11 @@
     <!--  Style -->
     {% stylesheet main %}
     <!--  Icon -->
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="/images/{{ site.inc.logo }}"/>
+     <!-- TODO -->
+    <link rel="shortcut icon" href="//favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="//images/{{ site.inc.logo }}"/>
     <!--  RSS -->
-    <link href="{{ site_url }}/feed.xml" rel="alternate" type="application/rss+xml" title="{{ site.inc.title }}" />
+    <!-- <link href="{{ site_url }}/feed.xml" rel="alternate" type="application/rss+xml" title="{{ site.inc.title }}" /> -->
     <!--  Canonical -->
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
     <!--  GPlus -->
@@ -34,6 +35,8 @@
       <meta name="description" content="{{ page.excerpt }}"/>
     {% endif %}
     <meta property="og:site_name" content="{{ site.inc.title }}">
+
+    <!-- MathTex -->
     <script type="text/javascript"
     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
       </script>
@@ -42,6 +45,8 @@
         tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
         "HTML-CSS": { availableFonts: ["TeX"] }});
     </script>
+
+    <!-- Icon book -->
     <link href="{{ site.url }}/webfonts/ss-social-circle.css" rel="stylesheet" />
 </head>
 <body>
@@ -53,13 +58,13 @@
                 <img src="{{ site.url }}/images/logo.svg"></img>
             </a>
             <ul>
-            <a class="nav-text-button" href="//{{ site.url }}/blog">
+            <a class="nav-text-button" href="//{{ site.hostname }}/blog">
                 BLOG
             </a>
-            <a class="nav-text-button" href="//{{ site.url }}/blog">
+            <a class="nav-text-button" href="//{{ site.hostname }}/publications">
                 ACADEMIA
             </a>
-            <a class="nav-text-button" href="//{{ site.url }}/blog">
+            <a class="nav-text-button" href="//{{ site.hostname }}/blog">
                 TALKS & POSTS
             </a>
             </ul>

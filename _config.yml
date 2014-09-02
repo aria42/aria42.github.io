@@ -35,6 +35,7 @@ inc:
 
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
+hostname: "localhost:4000"
 url:         http://localhost:4000
 source:      .
 destination: ./_site
