@@ -2,12 +2,15 @@ $(".full img").on("click", function() {
   $(this).toggleClass("zoom");
 });
 
-(function() {
+SVGElement.prototype.addClass = function (className) {
+  if (!this.hasClass(className)) {
+    this.setAttribute('class', this.getAttribute('class') + ' ' + className);
+  }
+};
 
-  $(function() {
-    var $targets;
-    $targets = $('img[src$="svg"]').hide();
-    return $targets.each(function(i, item) {
+function svgFill() {
+  $('img[src$="svg"]').hide()
+    .each(function(i, item) {
       var _this = this;
       return $.get(this.src).success(function(data) {
         var $svg, a, nName, nValue, _attr, _i, _len;
@@ -24,7 +27,28 @@ $(".full img").on("click", function() {
         }
         return $(_this).replaceWith($svg);
       });
-    });
   });
+}
 
+var accented = "#428bca";
+
+function setupHeader() {
+  var uri = window.location.pathname.substring(1);
+  if (uri.indexOf("/") >= 0) {
+    uri = uri.substring(0, uri.indexOf("/"));
+  }
+  if (uri == "") {
+    var loop = setInterval(function() {
+      if ($(".nav-button-home svg ellipse").length) {
+        $(".nav-button-home svg ellipse").attr("fill",accented);
+      }
+    }, 5)
+  } else {
+    $(".nav-button-" + uri).addClass("accented");
+  }
+}
+
+(function() {
+  $(svgFill);
+  $(setupHeader);
 }).call(this);

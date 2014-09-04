@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Page Title -->
     <title>{% if page.title %}{{ page.title }} &mdash; {{ site.inc.title }}{% else %}{{ site.inc.title }} &mdash; {{ site.inc.subtitle }}{% endif %}</title>
-    {% if site.inc.google_font %}<link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font }}" rel="stylesheet" type="text/css">{% endif %}
+    {% if site.inc.google_font %}
+      <link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font }}" rel="stylesheet" type="text/css">
+    {% endif %}
     <meta name="title" content="{% if page.title %}{{ page.title }} {% else %}{{ site.inc.title }}{% endif %}">
     <!--  Style -->
     {% stylesheet main %}
     <!--  Icon -->
-     <!-- TODO -->
+    <!-- TODO -->
     <link rel="shortcut icon" href="//favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="//images/{{ site.inc.logo }}"/>
     <!--  RSS -->
@@ -18,8 +20,12 @@
     <!--  Canonical -->
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
     <!--  GPlus -->
-    {% if page.site.gplus %}<link rel="publisher" href="https://plus.google.com/{{ site.inc.gplus }}">{% endif %}
-    {% if page.author.gplus %}<link rel="author" href="https://plus.google.com/{{ page.author.gplus }}">{% endif %}
+    {% if page.site.gplus %}
+      <link rel="publisher" href="https://plus.google.com/{{ site.inc.gplus }}">
+    {% endif %}
+    {% if page.author.gplus %}
+      <link rel="author" href="https://plus.google.com/{{ page.author.gplus }}">
+    {% endif %}
     <!--  Facebook OG -->
     <meta property="og:title" content="{% if page.title %}{{ page.title }} {% else %}{{ site.inc.title }}{% endif %}"/>
     <meta property="og:url" content="{{ site.url }}{{ page.url }}"/>
@@ -54,21 +60,18 @@
 <section class="site-nav">
     <header>
         <nav id="navigation">
-            <a class="logo" href="//">
+            <a class="logo nav-button-home" href="//">
                 <img src="{{ site.url }}/images/logo.svg"></img>
             </a>
-            <ul>
-            <a class="nav-text-button" href="//{{ site.hostname }}/blog">
-                BLOG
-            </a>
-            <a class="nav-text-button" href="//{{ site.hostname }}/publications">
-                ACADEMIA
-            </a>
-            <a class="nav-text-button" href="//{{ site.hostname }}/blog">
-                TALKS & POSTS
-            </a>
+            <ul id="navigation-menu">
+            {% for item in site.data.navigation_menu %}
+                <li>
+                  <a class="nav-text-button nav-button-{{ item.uri }}" href="//{{ site.hostname }}/{{ item.uri }}">
+                      {{ item.title | upcase }}
+                  </a>
+                </li>
+            {% endfor %}
             </ul>
-
             <!-- <a href="http://twitter.com/aria42" class="home"><i class="ss-icon">twitter</i></a>
             <a href="http://github.com/aria42" class="home"><i class="ss-icon">octocat</i></a>
             <a href="mailto:me@aria42.com" class="home"><i class="ss-icon">email</i></a> -->

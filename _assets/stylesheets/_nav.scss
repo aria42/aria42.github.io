@@ -35,6 +35,13 @@
     #navigation {
         padding-right:0;
 
+        // Have a class available for accented
+        .accented {
+	       color: $accent !important;
+	       fill: $accent !important;
+        }
+
+
         ul {
           display: inline;
           // TODO
@@ -81,12 +88,21 @@
             }
         }
 
-        a.nav-text-button {
+        ul {
+          float:right;
+          list-style: none;
+          li {
+            float:left;
+          }
+        }
+
+        .nav-text-button {
           font-family: $font;
           font-weight: bold;
           vertical-align: top;
           font-size: 18px;
           margin-top: 11px;
+          color: $text;
         }
     }
 
