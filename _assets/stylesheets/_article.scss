@@ -25,7 +25,7 @@ article {
 
 
     .container > header, .container > section, .container > footer {
-        margin:0 8em;
+        margin:0 8em;        
     }
 
     .social {
@@ -156,7 +156,7 @@ article {
 
     .meta {
         color:$textmuted;
-        font-size:13px;
+        font-size:0.8em;
         text-transform:uppercase;
         margin-bottom:0.3em;
         font-weight:400;
@@ -164,7 +164,6 @@ article {
 
         time, address {
             display:inline;
-            font-size:13px;
         }
 
         a {

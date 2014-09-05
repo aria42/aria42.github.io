@@ -4,6 +4,10 @@
         display:none;
     }
 
+    .meta {
+      font-size: 0.7em;
+    }
+
     .container > header, .container > section, .container > footer {
         padding:0;
         margin:1.5em 10%;
@@ -14,12 +18,21 @@
         // padding-bottom:1.5em;
     }
 
+    .container {
+      padding-top: 0em;
+    }
+
 }
 
 @media (max-width: 720px) {
 
     article {
         padding-top:30px;
+
+
+        .meta {
+          font-size:0.6em;
+        }
 
         .container > header, .container > section, .container > footer {
             padding:0;
