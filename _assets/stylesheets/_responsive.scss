@@ -7,6 +7,7 @@
     .container > header, .container > section, .container > footer {
         padding:0;
         margin:1.5em 10%;
+        // padding-top: 1em;
     }
 
     .container > section {
@@ -22,6 +23,7 @@
 
         .container > header, .container > section, .container > footer {
             padding:0;
+            // padding-top:1em;
             margin:1.5em 10%;
         }
 
@@ -50,14 +52,14 @@
         }
 
         h2 {
-            font-size:1.1em;
+            font-size:1.0em;
         }
 
         p {
-            font-size:0.9em;
+            font-size:0.8em;
         }
         li {
-          font-size: 0.9em;
+          font-size: 0.8em;
         }
     }
 
@@ -78,11 +80,11 @@
             }
         }
         h1 {
-            font-size:1.2em;
+            font-size:1.0em;
         }
 
         h3 {
-            font-size:1em;
+            font-size:0.9em;
         }
     }
 
