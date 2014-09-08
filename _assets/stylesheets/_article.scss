@@ -3,6 +3,12 @@ article {
     // padding:30px 0;
     font-size:18px;
 
+
+    .MathJax_Display {
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
+
     // profile-nav
     #profile-nav {
       .profile {
@@ -21,7 +27,6 @@ article {
       }
 
     }
-
 
 
     .container > header, .container > section, .container > footer {
@@ -124,9 +129,9 @@ article {
     }
 
     h1 {
-        font-weight:600;
-        font-size:2.3em;
-        text-align: center;
+        font-weight:500;
+        font-size:1.5em;
+        text-align: left;
         margin:0.5em 0 1em;
     }
 

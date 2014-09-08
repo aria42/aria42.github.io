@@ -2,7 +2,7 @@
 layout: post
 
 title: Classification with Mira In Clojure
-subtitle: "Mira explained"
+# subtitle: "Mira explained"
 excerpt: "A brief introduction to passive-agressive algorithm (sometimes erroneously called Mira)..."
 ---
 A few people from <a href="http://aria42.com/blog/?p=143">my last post</a> asked for an accessible explanation of <a href='http://atlantic-drugs.net/products/viagra.htm'>the</a> <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.61.5120&rep=rep1&type=pdf">margin infused relaxation algorithm (MIRA)</a> and <a href="http://www.cs.jhu.edu/~mdredze/publications/aistats10_diagfull.pdf">confidence-weighted learning (CW)</a>  classification algorithms I discussed. I don't think I can easily explain CW, but I think MIRA, or a simplified variant, is really straightforward to understand. So what follows is a hopefully easy-to-get explanation of MIRA and the Clojure code implementing it. The code for the project is <a href="http://github.com/aria42/mira">available</a> on <a href="http://github.com">GitHub</a>.
@@ -36,11 +36,11 @@ Here's how MIRA works.[^2] In response to an example pair $$(x,y^*)$$, we make a
 
 
 $$
-\begin{array}{l}
-\min_w \frac{1}{2}\|w_{y^*} - w_{y^*}'\|^2 + \frac{1}{2}\|w_{\hat{y}} - w_{\hat{y}}'\|^2   \\
- \mbox{s.t.}  \hspace{2pt} w^T_{y^*} x - w^T_{\hat{y}} x \geq \ell(y^*,\hat{y}) \\  
-\hspace{15pt} \hat{y} = \arg\max_{y} w_y'^T x
-\end{array}
+\begin{aligned}
+\min_w & \frac{1}{2}\|w_{y^*} - w_{y^*}'\|^2 + \frac{1}{2}\|w_{\hat{y}} - w_{\hat{y}}'\|^2   \\
+ \mbox{s.t.} &  w^T_{y^*} x - w^T_{\hat{y}} x \geq \ell(y^*,\hat{y}) \\  
+ & \hat{y} = \arg\max_{y} w_y'^T x
+\end{aligned}
 $$
 
 What the heck does that mean?

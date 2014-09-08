@@ -22,9 +22,19 @@
       padding-top: 0em;
     }
 
+    .MathJax_Display {
+      font-size:90%;
+    }
+
 }
 
 @media (max-width: 720px) {
+
+    .MathJax_Display {
+      font-size:85%;
+    }
+
+
 
     article {
         padding-top:30px;
@@ -61,7 +71,7 @@
         }
 
         h1 {
-            font-size:1.8em;
+            font-size:1.5em;
         }
 
         h2 {
@@ -69,7 +79,7 @@
         }
 
         p {
-            font-size:0.8em;
+            font-size:1em;
         }
         li {
           font-size: 0.8em;

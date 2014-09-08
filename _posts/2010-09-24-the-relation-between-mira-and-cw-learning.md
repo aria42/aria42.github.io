@@ -61,10 +61,12 @@ If $\Phi$ is the cumulative distribution function for the unit-normal, we want:
 $$ 1 - \Phi\left(-\frac{ \mu^{T} \Delta f}{\| \Delta f \|}\right) \geq \eta $$
 
 This implies,
+
 $$
 	   \Phi\left(-\frac{ \mu^{T} \Delta f}{\| \Delta f \|}\right) \leq 1 - \eta \Rightarrow
 	    erf\left(\frac{ \mu^{T} \Delta f}{\sqrt{2} \| \Delta f \|}\right) \leq 1 - 2\eta
 $$
+
 where $erf(\cdot)$ is the <a  href="http://en.wikipedia.org/wiki/Error_function">error function</a>.
 
 Here's the subtlety: If we assume that our feature vectors $(x,y)$ are normalized and that for any two $y,y'$ that $f(x,y)$ and $f(x,y')$ don't overlap in non-zero features (which is common in NLP since weight vectors are partitioned for different $y$s) then $\| \Delta f \|$ is a constant independent of the particular update. In which case, ensuring $erf (c \mu^{T} \Delta f) \leq 1 - 2 \eta$ (assuming $\eta > 0.5$) just amounts to making sure $\mu^{T} \Delta f$ exceeds some constant independent of the particular update, which is equivalent to selecting that choice of $\gamma$ in MIRA.  So the two optimizations are essentially the same.

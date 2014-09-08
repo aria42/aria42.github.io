@@ -8,11 +8,11 @@ title: Blog
     <section class="index">
         <!-- {% if post.author.image %}<img src="/images/{{ post.author.image }}" class="avatar">{% endif %}-->
         <div>
-            <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
             <div class="meta">
                 <!-- Written By <address>{{ post.author.name }}</address> &mdash; -->
                 <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{ post.date | date: "%B %d, %Y" }}</time>
             </div>
+            <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>            
             {% if post.excerpt %}
               <p class="excerpt">{{ post.excerpt }}</p>
             {% endif %}
