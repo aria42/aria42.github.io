@@ -7,6 +7,8 @@ article {
     .MathJax_Display {
       overflow-x: scroll;
       overflow-y: hidden;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
 
     // profile-nav
@@ -223,11 +225,12 @@ article {
         border-bottom:1px solid #eee;
         width:100%;
         font-size:1em;
-        overflow-x: auto;
+        overflow-x: scroll;
+        overflow-y: hidden;
         display:block;
 
         code {
-            font-size:0.8em;
+            font-size:0.75em;
             border:0;
         }
     }
