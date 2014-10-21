@@ -17,8 +17,8 @@ title: Publications
 						<div class="toggler">
 							<ul class="paper-present">
 								{% if paper.abstract %}<li style="float:left;"><a onclick="javascript:toggleAbstract(this)">Abstract</li>{% endif %}
-								{% if paper.pdf %} <li ><a href="{{ paper.pdf }}">PDF</a></li> {% endif %}
-								{% if paper.slides %}<li ><a href="{{ paper.pdf }}">Slides</a></li> {% endif %}
+								{% if paper.pdf %} <li ><a target="_blank" href="{{ paper.pdf }}">PDF</a></li> {% endif %}
+								{% if paper.slides %}<li ><a target="_blank" href="{{ paper.pdf }}">Slides</a></li> {% endif %}
 							</ul>
 						</div>
 						<div class="abstract">
