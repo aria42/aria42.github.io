@@ -35,8 +35,8 @@ inc:
 
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
-hostname: "localhost:4000"
-url:         http://localhost:4000
+hostname: "aria42.github.io"
+url:         http://aria42.github.io
 source:      .
 destination: ./_site
 plugins:     ./_plugins
