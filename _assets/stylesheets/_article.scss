@@ -11,11 +11,20 @@ article {
       overflow: hidden;
     }
 
+
     .MathJax_Display {
       overflow-x: scroll;
       overflow-y: hidden;
       padding-top: 5px;
       padding-bottom: 5px;
+    }
+
+    ul.paper-present {
+      list-style-type: none;
+      padding-left:0em;
+      li {
+        padding-right: 0.75em;
+      }
     }
 
     // profile-nav
@@ -124,10 +133,11 @@ article {
     }
 
     blockquote {
-        border:0;
-        font-size:24px;
-        margin:1.2em -4em 1.2em 0;
-        padding:0;
+      border-color: $accent;
+      border-width: 1vw;
+      border-left-style: solid;
+      padding-left: 3vw;      
+      margin:1.2em -4em 1.2em 0;
 
         p {
             font-size:30px;
