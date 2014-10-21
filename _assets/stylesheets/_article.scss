@@ -4,6 +4,13 @@ article {
     font-size:18px;
 
 
+    .excerpt {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
     .MathJax_Display {
       overflow-x: scroll;
       overflow-y: hidden;
