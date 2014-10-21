@@ -47,7 +47,7 @@
         .container > header, .container > section, .container > footer {
             padding:0;
             // padding-top:1em;
-            margin:0 3em;
+            margin:0 2.5em;
         }
 
         .container > footer {
@@ -75,7 +75,7 @@
         }
 
         h2 {
-            font-size:1.0em;
+            font-size:1.25em;
         }
 
         p {
@@ -101,6 +101,9 @@
             a {
                 margin:0.5em;
             }
+        }
+        h1.title {
+          font-size:1.25em;
         }
         h1 {
             font-size:1.0em;
