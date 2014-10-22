@@ -10,7 +10,8 @@
     {% endif %}
     <meta name="title" content="{% if page.title %}{{ page.title }} {% else %}{{ site.inc.title }}{% endif %}">
     <!--  Style -->
-    {% stylesheet main %}
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!-- <link rel="javascript" type="text/javascript" href="/js/main.js"> -->
     <!--  Icon -->
     <!-- TODO -->
     <link rel="shortcut icon" href="//favicon.ico" type="image/x-icon" />
@@ -65,7 +66,8 @@
     <header>
         <nav id="navigation">
             <a class="logo nav-button-home" href="{{ site.url }}">
-                <img src="{{ site.url }}/images/logo.svg"></img>
+                {% include images/logo.svg %}
+                <!-- <img src="{{ site.url }}/images/logo.svg"></img> -->
             </a>
             <ul id="navigation-menu">
             {% for item in site.data.navigation_menu %}
@@ -88,7 +90,7 @@
 <footer class="site-footer">
     <div class="container" style="text-align:center;">
         <div class="blah">
-        &copy; {{ site.time | date: "%Y" }} <a href="{{ site.inc.url }}">{{ site.inc.company }}</a> &middot;
+        &copy; {{ site.time | date: "%Y" }} <a href="{{ site.inc.url }}">{{ site.inc.company }}</a>
         </div>
         <div class="contact">
             <a href="http://twitter.com/aria42" class="home"><i class="ss-icon">twitter</i></a>

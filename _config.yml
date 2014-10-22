@@ -35,8 +35,8 @@ inc:
 
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
-hostname: "aria42.github.io"
-url:         http://aria42.github.io
+hostname: "localhost:4000"
+url:         http://localhost:4000
 source:      .
 destination: ./_site
 plugins:     ./_plugins
@@ -100,23 +100,26 @@ kramdown:
 redcloth:
   hard_breaks: true
 
+# #
+# # jekyll-assets: see more at https://github.com/ixti/jekyll-assets
+# #
+# assets:
 #
-# jekyll-assets: see more at https://github.com/ixti/jekyll-assets
-#
-assets:
+#   dirname: assets
+#   baseurl: /assets/
+#   sources:
+#     - _assets/javascripts
+#     - _assets/stylesheets
+#     - _assets/images
+#   js_compressor: uglifier
+#   css_compressor: sass
+#   cachebust: none
+#   cache: false
+#   gzip: [ text/css, application/javascript ]
+#   debug: false
 
-  dirname: assets
-  baseurl: /assets/
-  sources:
-    - _assets/javascripts
-    - _assets/stylesheets
-    - _assets/images
-  js_compressor: uglifier
-  css_compressor: sass
-  cachebust: none
-  cache: false
-  gzip: [ text/css, application/javascript ]
-  debug: false
+# gems:
+# - jekyll-assets
 
-gems:
-- jekyll-assets
+sass:
+    sass_dir: _sass
