@@ -58,21 +58,20 @@
     </script>
 
     <!-- Icon book -->
-    <link href="{{ site.url }}/webfonts/ss-social-circle.css" rel="stylesheet" />
+    <link href="/webfonts/ss-social-circle.css" rel="stylesheet" />
 </head>
 <body>
 
 <section class="site-nav">
     <header>
         <nav id="navigation">
-            <a class="logo nav-button-home" href="{{ site.url }}">
+            <a class="logo nav-button-home" href="//">
                 {% include images/logo.svg %}
-                <!-- <img src="{{ site.url }}/images/logo.svg"></img> -->
             </a>
             <ul id="navigation-menu">
             {% for item in site.data.navigation_menu %}
                 <li>
-                  <a class="nav-text-button nav-button-{{ item.uri }}" href="//{{ site.hostname }}/{{ item.uri }}">
+                  <a class="nav-text-button nav-button-{{ item.uri }}" href="/{{ item.uri }}">
                       {{ item.title | upcase }}
                   </a>
                 </li>
