@@ -15,3 +15,124 @@
   pdf: http://people.csail.mit.edu/regina/my_papers/morph_conll2011.pdf
   abstract: "The connection between part-of-speech (POS) categories and morphological properties is well-documented in linguistics but underuti- lized in text processing systems. This pa- per proposes a novel model for morphologi- cal segmentation that is driven by this connec- tion. Our model learns that words with com- mon affixes are likely to be in the same syn- tactic category and uses learned syntactic cat- egories to refine the segmentation boundaries of words. Our results demonstrate that incor- porating POS categorization yields substantial performance gains on morphological segmen- tation of Arabic."
   conference: CoNLL 2011
+
+- title: "Incorporating Content Structure into Text Analysis Applications"
+  authors: ["Christina Sauper", "Aria Haghighi", "Regina Barzilay"]
+  pdf: /pubs/sauper-emnlp10.pdf
+  abstract: ""
+  conference: "EMNLP 2010"
+
+- title: "Simple Type-Level Unsupervised POS Tagging"
+  authors: ["Yeong Keok Lee","Aria Haghighi","Regina Barzilay"]
+  pdf: "/pubs/typetagging.pdf"
+  abstract: "Part-of-speech (POS) tag distributions are known to exhibit sparsity --- a word is likely to take a single predominant tag in a corpus. Recent research has demonstrated that incorporating this sparsity constraint improves tagging accuracy. However, in existing systems, this expansion come with a steep increase in model complexity. This paper proposes a simple and effective tagging method that directly models tag sparsity and other distributional properties of valid POS tag assignments. In addition, this formulation results in a dramatic reduction in the number of model parameters thereby, enabling unusually rapid training. Our experiments consistently demonstrate that this model architecture yields substantial performance gains over more complex tagging counterparts. On several languages, we report performance exceeding that of more complex state-of-the art systems."
+  conference: "EMNLP 2010"
+
+- title: "An Entity-Level Approach to Information Extraction"
+  authors: ["Aria Haghighi", "Dan Klein"]
+  pdf: "/pubs/iecoref.pdf"
+  abstract: "We present a generative model of template-filling in which coreference resolution and role assignment are jointly determined. Underlying template roles first generate abstract entities, which in turn generate concrete textual mentions. On the standard corporate acquisitions dataset, joint resolution in our entity-level model reduces error over a mention-level discriminative approach by up to 20%."
+  conference: "ACL 2010"
+
+- title: "Coreference Resolution in a Modular, Entity-Centered Model"
+  authors: ["Aria Haghighi", "Dan Klein"]
+  pdf: "/pubs/naacl2010-coref2.pdf"
+  abstract: "Coreference resolution is governed by syntactic, semantic, and discourse constraints. We present a generative, model-based approach in which each of these factors is modularly en- capsulated and learned in a primarily unsupervised manner. Our semantic representation first hypothesizes an underlying set of latent entity types, which generate specific entities that in turn render individual mentions. By sharing lexical statistics at the level of abstract entity types, our model is able to substantially reduce semantic compatibility errors, resulting in the best results to date on the complete end-to-end coreference task."
+  conference: "NAACL 2010 [<b>BEST PAPER AWARD</b>]"
+  slides: "http://aria42.com/pubs.html"
+
+- title: "Exploring Content Models for Multi-Document Summarization"
+  authors: ["Aria Haghighi", "Lucy Vanderwende"]
+  pdf: "/pubs/naacl09-topical.pdf"
+  abstract: "We present an exploration of generative probabilistic models for multi-document summarization. Beginning with a simple word fre- quency based model (Nenkova and Vanderwende, 2005), we construct a sequence of models each injecting more structure into the representation of document set content and exhibiting ROUGE gains along the way. Our final model, HIERSUM, utilizes a hierarchical LDA-style model (Blei et al., 2004) to represent content specificity as a hierarchy of topic vocabulary distributions. At the task of producing generic DUC-style summaries, HIERSUM yields state-of-the-art ROUGE performance and in pairwise user evaluation strongly outperforms Toutanova et al. (2007)'s state-of-the-art discriminative system.	We also explore HIERSUM's capacity to produce multiple 'topical summaries' in order to facilitate content discovery and navigation."
+  conference: "NAACL 2009"
+  slides: "/slides/naacl09-topical-slides.pdf"
+
+- title: "Better Word Alignments with Supervised ITG Models"
+  authors: ["Aria Haghighi", "John Blitzer", and "Dan Klein"]
+  pdf: "/pubs/acl09-itg.pdf"
+  abstract: "This work investigates supervised word alignment methods that exploit inversion transduction grammar (ITG) constraints. We consider maximum margin and conditional likelihood objectives, including the presentation of a new normal form grammar for canonicalizing derivations. Even for non-ITG sentence pairs, we show that it is possible learn ITG alignment models by simple relaxations of structured discriminative learning objectives. For efficiency, we describe a set of pruning techniques that together allow us to align sentences two orders of magnitude faster than naive bitext CKY parsing. Finally, we introduce many-to-one block alignment features, which significantly improve our ITG models. Altogether, our method results in the best reported AER numbers for Chinese-English and a performance improvement of 1.1 BLEU over GIZA++ alignments."
+  conference: "ACL 2009"
+  slides: "/slides/acl09-itg-slides.pdf"
+
+- title: "Simple Coreference Resolution with Rich Syntactic and Semantic Features"
+  authors: ["Aria Haghighi", "Dan Klein"]
+  pdf: "http://aclweb.org/anthology-new/D/D09/D09-1120.pdf"
+  conference: "EMNLP 2009"
+  abstract: "Coreference systems are driven by syntactic, semantic, and discourse constraints. We present a simple approach which completely modularizes these three aspects. In contrast to much current work, which focuses on learning and on the discourse component, our system is deterministic and is driven entirely by syntactic and semantic compatibility as learned from a large, unlabeled corpus. Despite its simplicity and discourse naivete, our system substantially outperforms all unsupervised systems and most supervised ones. Primary contributions include (1) the presentation of a simple- to-reproduce, high-performing baseline and (2) the demonstration that most remaining errors can be attributed to syntactic and semantic factors external to the coreference phenomenon (and perhaps best addressed by non-coreference systems)."
+
+- title: "Learning Bilingual Lexicons from Monolingual Corpora"
+  authors: ["Aria Haghighi", "Percy Liang", "Taylor Berg-Kirkpatrick", "Dan Klein" ]
+  slides: "/slides/acl2008-unsup-slides.pptx"
+  pdf: "/pubs/acl2008-unsup-bilexicon.pdf"
+  abstract: "We present a method for learning bilingual translation lexicons from monolingual corpora. Word types in each language are characterized by purely monolingual features, such as context counts and orthographic substrings. Translations are induced using a generative model based on canonical correlation analysis, which explains the monolingual lexicons in terms of latent matchings. We show that high-precision lexicons can be learned in a variety of language pairs and from a range of corpus types."
+  conference: "ACL 2008"
+
+- title: "Coarse-to-Fine Syntactic Machine Translation using Language Projections"
+  authors: ["Slav Petrov", "Aria Haghighi", "Dan Klein"]
+  pdf: "/pubs/emnlp08b.pdf"
+  abstract: "The intersection of tree transducer-based translation models with n-gram language models results in huge dynamic programs for machine translation decoding.  We propose a multipass, coarse-to-fine approach in which the language model complexity is incrementally introduced.  In contrast to previous *order-based* bigram-to-trigram approaches, we focus on *encoding-based* methods, which use a clustered encoding of the target language.  Across various hierarchical encoding schemes and for multiple language pairs, we show speed-ups of up to 50 times over single-pass decoding while improving BLEU score.  Moreover, our entire decoding cascade for trigram language models is faster than the corresponding bigram pass alone of a bigram-to-trigram decoder."
+  slides: "slides/emnlp08b-slides.pdf"
+  conference: "EMNLP 2008"
+
+- title: "Fully Distributed EM for Very Large Datasets"
+  authors: ["Jason Wolfe", "Aria Haghighi" , "Dan Klein"]
+  abstract: "In EM and related algorithms, E-step computations distribute easily, because data items are independent given parameters. For very large data sets, however, even storing all of the parameters in a single node for the M- step can be impractical. We present a framework that fully distributes the entire EM procedure. Each node interacts only with parameters relevant to its data, sending messages to other nodes along a junction-tree topology. We demonstrate improvements over a MapReduce topology, on two tasks: word alignment and topic modeling."
+  pdf: "http://w01fe.com/berkeley/pubs/08-icml-em.pdf"
+  slides: "/slides/icml08-distributedem-slides.pdf"
+
+- title: "A Global Joint Model for Semantic Role Labeling"
+  authors: ["Kristina Toutanova", "Aria Haghighi", "Christopher D. Manning"]
+  pdf: "http://aclweb.org/anthology-new/J/J08/J08-2002.pdf"
+  conference: "Computational Linguistics"
+
+- title: "Unsupervised Coreference Resolution in a Nonparametric Bayesian Model"
+  authors: ["Aria Haghighi", "Dan Klein"]
+  conference: "ACL 2007"
+  abstract: "We present an unsupervised, nonparametric Bayesian approach to coreference resolution which models both global entity identity across a corpus as well as the sequential anaphoric structure within each document. While most existing coreference work is driven by pairwise decisions, our model is fully generative, producing each mention from a combination of global entity proper- ties and local attentional state. Despite be- ing unsupervised, our system achieves a 70.3 MUC F1 measure on the MUC-6 test set, broadly in the range of some recent supervised results."
+  pdf: "/pubs/acl07-hdp-coref.pdf"
+  slides: "/slides/acl07-hdp-coref-slides.pdf"
+
+- title: "Approximate Factoring for A* Search"
+  authors: ["Aria Haghighi", "John DeNero", "Dan Klein"]
+  abstract: "We present a novel method for creating A∗ estimates for structured search problems. In our approach, we project a complex model onto multiple simpler models for which exact inference is efficient. We use an optimization framework to estimate parameters for these projections in a way which bounds the true costs. Similar to Klein and Manning (2003), we then combine completion estimates from the simpler models to guide search in the original complex model. We apply our approach to bitext parsing and lexicalized parsing, demonstrating its effectiveness in these domains."
+  pdf: "/pubs/factor-astar-naacl07.pdf"
+  slides: "/presentations/naacl07-factor-astar.ppt"
+  conference: "NAACL 2007"
+
+- title: "A* Search via Approximate Factoring"
+  authors: ["Aria Haghighi", "John DeNero", "Dan Klein"]
+  conference: "AAAI 2007"
+
+- title: "Prototype-driven Learning for Sequence Models"
+  authors: ["Aria Haghighi", "Dan Klein"]
+  conference: "NAACL 2006"
+  abstract: "We investigate prototype-driven learning for primarily unsupervised sequence modeling. Prior knowledge is specified declaratively, by providing a few canonical examples of each target an- notation label. This sparse prototype information is then propagated across a corpus using distributional similarity features in a log-linear generative model. On part-of-speech induction in English and Chinese, as well as an information extraction task, prototype features provide substantial error rate reductions over competitive baselines and outperform previous work. For example, we can achieve an English part-of-speech tagging accuracy of 80.5% using only three examples of each tag and no dictionary constraints. We also compare to semi-supervised learning and discuss the system's error trends."
+  pdf: "/pubs/naacl06-posinduction.pdf"
+  slides: "/presentations/naacl06-protosequence.ppt"
+
+- title: "Prototype-driven Grammar Induction"
+  authors: ["Aria Haghighi", "Dan Klein"]
+  conference: "ACL 2006"
+  abstract: "We investigate prototype-driven learning for primarily unsupervised grammar induction. Prior knowledge is specified declaratively, by providing a few canonical examples of each target phrase type. This sparse prototype information is then propagated across a corpus using distributional similarity features, which augment an otherwise standard PCFG model. We show that distributional features are effective at distinguishing bracket labels, but not determining bracket locations. To improve the quality of the induced trees, we combine our PCFG induction with the CCM model of Klein and Manning (2002), which has complementary strengths: it identifies brackets but does not label them. Using only a handful of prototypes, we show substantial improvements over naive PCFG induction for English and Chinese grammar induction."
+  pdf: "/pubs/acl06-grammarinduction.pdf"
+  slides: "/presentations/acl06-grammarinduction-new.ppt"
+
+- title: "Robust Textual Inference via Graph Matching"
+  authors: ["Aria D. Haghighi", "Andrew Y. Ng", "Christopher D. Manning"]
+  pdf: "/pubs/rte-emnlp05.pdf"
+
+- title: "Robust Textual Inference Using Diverse Knowledge Sources"
+  authors: ["Rajat Raina", "Aria Haghighi", "Christopher Cox", "Jenny Finkel", "Jeff Michels","Kristina Toutanova", "Bill MacCartney", "Marie-Catherine de Marneffe", "Christopher D. Manning", "Andrew Y. Ng" ]
+  conference: "PASCAL Challenge Workshop in Recognizing Textual Entailment 2005"
+  pdf: "/pubs/rte.pdf"
+
+- title: "A Joint Model for Semantic Role Labeling"
+  authors: ["Kristina Toutanova","Aria Hahgighi", "Chris D. Manning"]
+  confernece: "CoNLL 2005"
+  pdf: "http://www-nlp.stanford.edu/~manning/papers/conll2005new.pdf"
+
+- title: "Joint Learning Improves Semantic Role Labeling"
+  authors: ["Kristina Toutanova","Aria Hahgighi", "Chris D. Manning"]
+  conference: "ACL 2005"
+  pdf: "/pubs/srljoint.pdf"
