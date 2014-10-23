@@ -71,6 +71,11 @@
             }
         }
 
+        // Hack to make icon left aligned
+        a.nav-button-home {
+          margin-left:0em;
+        }
+
         > a, .dropdown-toggle  {
             color:#444;
             border:0;
