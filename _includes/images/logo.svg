@@ -3,28 +3,12 @@
     <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
     <title>logo</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
-            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
-            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetInner1" result="shadowBlurInner1"></feGaussianBlur>
-            <feComposite in="shadowBlurInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
-            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowInnerInner1" type="matrix" result="shadowMatrixInner1"></feColorMatrix>
-            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetInner2"></feOffset>
-            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetInner2" result="shadowBlurInner2"></feGaussianBlur>
-            <feComposite in="shadowBlurInner2" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner2"></feComposite>
-            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowInnerInner2" type="matrix" result="shadowMatrixInner2"></feColorMatrix>
-            <feMerge>
-                <feMergeNode in="SourceGraphic"></feMergeNode>
-                <feMergeNode in="shadowMatrixInner1"></feMergeNode>
-                <feMergeNode in="shadowMatrixInner2"></feMergeNode>
-            </feMerge>
-        </filter>
-    </defs>
+    <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="logo" sketch:type="MSLayerGroup" transform="translate(-11.000000, -4.659028)">
-            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="96.9918197" cy="91.5029479" rx="85.9918197" ry="86.0129479"></ellipse>
-            <text id="42" fill="white" filter="url(#filter-1)" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="164" font-weight="normal" sketch:alignment="middle">
-                <tspan x="23.332" y="114" fill="#FFFFFF">42</tspan>
+        <g id="logo" sketch:type="MSLayerGroup" transform="translate(-12.000000, -9.659028)">
+            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="97.9918197" cy="96.5029479" rx="85.9918197" ry="86.0129479"></ellipse>
+            <text id="42" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="179" font-weight="normal" sketch:alignment="middle" fill="#FFFFFF">
+                <tspan x="17.777" y="125">42</tspan>
             </text>
         </g>
     </g>
