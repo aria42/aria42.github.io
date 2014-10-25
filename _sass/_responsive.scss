@@ -17,7 +17,7 @@
         .container > header, .container > section, .container > footer {
             padding:0;
             // padding-top:1em;
-            margin:0 2.5em;
+            margin:0 1.5em;
         }
 
         .container > footer {
@@ -29,7 +29,10 @@
         }
 
         pre {
-            padding:1em;
+          code {
+            font-size: 0.65em;
+          }
+          padding:0.5em;
         }
 
         blockquote {
@@ -55,6 +58,8 @@
           font-size: 0.8em;
         }
     }
+
+
 
     .blog-cover {
         height:200px;
