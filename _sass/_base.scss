@@ -9,6 +9,11 @@ body {
     font-size:17px;
 }
 
+@font-face {
+    font-family:'Plantagenet Cherokee';
+    src: url('/webfonts/PlantagenetCherokee.ttf') format('truetype');
+}
+
 .is-visible {
 
     .site-nav {
