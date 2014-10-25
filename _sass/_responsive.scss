@@ -1,34 +1,4 @@
-@media (max-width: 1000px) {
-
-    .tagline span {
-        display:none;
-    }
-
-    .meta {
-      font-size: 0.7em;
-    }
-
-    .container > header, .container > section, .container > footer {
-        padding:0;
-        margin:1.5em 10%;
-        padding-top: 1em;
-    }
-
-    .container > section {
-        // padding-bottom:1.5em;
-    }
-
-    .container {
-      padding-top: 0em;
-    }
-
-    .MathJax_Display {
-      font-size:90%;
-    }
-
-}
-
-@media (max-width: 720px) {
+@media (max-width: 800px) {
 
     .MathJax_Display {
       font-size:85%;
