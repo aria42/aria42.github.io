@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="156px" height="157px" viewBox="0 0 156 157" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+<svg width="172px" height="173px" viewBox="0 0 172 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
     <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
-    <title>Logo</title>
+    <title>logo</title>
     <desc>Created with Sketch.</desc>
-    <defs></defs>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetInner1" result="shadowBlurInner1"></feGaussianBlur>
+            <feComposite in="shadowBlurInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowInnerInner1" type="matrix" result="shadowMatrixInner1"></feColorMatrix>
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetInner2"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetInner2" result="shadowBlurInner2"></feGaussianBlur>
+            <feComposite in="shadowBlurInner2" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowInnerInner2" type="matrix" result="shadowMatrixInner2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner1"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Logo" sketch:type="MSLayerGroup" transform="translate(0.000000, 0.340972)">
-            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="77.6845579" cy="78.1936451" rx="77.6845579" ry="77.7036451"></ellipse>
-            <text id="42" fill="#FFFFFF" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="163" font-weight="normal" sketch:alignment="middle" line-spacing="110">
-                <tspan x="5" y="151.49" fill="#000000">42</tspan>
+        <g id="logo" sketch:type="MSLayerGroup" transform="translate(-11.000000, -4.659028)">
+            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="96.9918197" cy="91.5029479" rx="85.9918197" ry="86.0129479"></ellipse>
+            <text id="42" fill="white" filter="url(#filter-1)" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="164" font-weight="normal" sketch:alignment="middle">
+                <tspan x="23.332" y="114" fill="#FFFFFF">42</tspan>
             </text>
         </g>
     </g>
