@@ -1,5 +1,14 @@
+// Tablet
+@media (max-width: 1024px)  {
+  .container > header, .container > section, .container > footer {
+      padding:0;
+      // padding-top:1em;
+      margin:0 4.0em;
+  }
+}
+
 // Mobile
-@media (max-width: 800px) {
+@media (max-width: 600px) {
 
     .MathJax_Display {
       font-size:85%;
@@ -9,6 +18,12 @@
       float:clear;
     }
 
+    .container > header, .container > section, .container > footer {
+        padding:0;
+        // padding-top:1em;
+        margin:0 1.5em;
+    }
+
 
     article {
         padding-top:30px;
@@ -16,12 +31,6 @@
 
         .meta {
           font-size:0.6em;
-        }
-
-        .container > header, .container > section, .container > footer {
-            padding:0;
-            // padding-top:1em;
-            margin:0 1.5em;
         }
 
         .container > footer {
@@ -122,8 +131,6 @@
     }
 
     .index {
-        padding:0;
-        margin:0 1.5em;
 
         > div {
             margin:0;
