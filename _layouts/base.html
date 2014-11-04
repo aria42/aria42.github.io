@@ -65,10 +65,12 @@
 <section class="site-nav">
     <header>
         <nav id="navigation">
-            <a class="logo nav-button-home" href="/">
-                {% include images/logo.svg %}
-            </a>
             <ul id="navigation-menu">
+                <li>
+                  <a class="logo nav-button-home" href="/">
+                    {% include images/logo.svg %}
+                  </a>
+                </li>
             {% for item in site.data.navigation_menu %}
                 <li>
                   <a class="nav-text-button nav-button-{{ item.uri }}" href="/{{ item.uri }}">
