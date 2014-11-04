@@ -10,6 +10,7 @@ latex: true
 status: publish
 type: post
 published: true
+excerpt: ""
 ---
 **Note:** This post won't make sense unless you're steeped in recent <a href="http://en.wikipedia.org/wiki/Machine_learning">machine learning</a>. There's a good chance that if you are, you already know this.
 

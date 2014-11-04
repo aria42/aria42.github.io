@@ -10,8 +10,16 @@
 @media (max-width: 5000px) and (min-width: 600px) {
   .container {
       max-width:800px;
-      padding-top: 1.75em;
+      padding-top: 2.25em;
       margin:0 auto;
+  }
+  article hr {
+    margin: 2.25em;
+    margin-left: 0.0em;
+    margin-right: 0.0em;
+  }
+  article hr.last-article-elem {
+    margin-bottom: 0.0em;    
   }
 }
 

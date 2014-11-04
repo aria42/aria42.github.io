@@ -14,7 +14,11 @@ title: Blog
             </div>
             <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
         </div>
+        {% if forloop.last %}
+        <hr class="last-article-elem">
+        {% else %}
         <hr>
+        {% endif %}
     </section>
     {% endunless %}
 {% endfor %}
