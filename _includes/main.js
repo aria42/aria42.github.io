@@ -8,6 +8,17 @@ SVGElement.prototype.addClass = function (className) {
   }
 };
 
+$("a.nav-text-button").on({ 'touchstart' : function(){
+  $(this).addClass('active');
+}});
+
+$("a.nav-text-button").on({ 'touchend' : function(){
+  $(this).removeClass('active');
+}});
+$("a.nav-text-button").on({ 'touchleave' : function(){
+  $(this).removeClass('active');
+}});
+
 function svgFill() {
   $('img[src$="svg"]').hide()
     .each(function(i, item) {

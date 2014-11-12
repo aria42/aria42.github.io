@@ -93,7 +93,7 @@ One detail in the code is that it's usually better to use the average of weight 
   (ns mira  
   {:doc "Implements margin-infused relaxation algorithm (MIRA)
          multi-class classifcation Fairly optimized."
-   :author "Aria Haghighi <me@aria42.com>"}
+   :author "Me <me@aria42.com>"}
   (:gen-class)
   (:use [clojure.string :only [join]]
         [clojure.java.io :only [reader]]))

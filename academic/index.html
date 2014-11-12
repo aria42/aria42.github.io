@@ -8,17 +8,21 @@ title: Academic
     <section class="index">
         <!-- {% if post.author.image %}<img src="/images/{{ post.author.image }}" class="avatar">{% endif %}-->
         <div class="academic-paper">
-            <h2 class="title"> {{ paper.title }}</h2>
-						<span><i>{{ paper.authors | array_to_sentence_string  }}</i></span>
-						{% if paper.conference %}
-            <br>
-						<span> In proceedings of {{ paper.conference }}</span>
+            {% if paper.conference %}
+            <div class="meta">
+              <span> Proceedings of {{ paper.conference }}</span>
+            </div>
 						{% endif %}
-						<div class="toggler">
+            <h2 class="title"><a href="{{ paper.pdf }}"> {{ paper.title }}</a></h2>
+            <div class="authors paper-section">
+						  {{ paper.authors | array_to_sentence_string  }}
+            </div>
+
+						<div class="toggler paper-section">
 							<ul class="paper-present">
-								{% if paper.abstract %}<li style="float:left;"><a onclick="javascript:toggleAbstract(this)">Abstract</li>{% endif %}
+								{% if paper.abstract %}<li style="float:left;"><a onclick="javascript:toggleAbstract(this)">ABSTRACT</li>{% endif %}
 								{% if paper.pdf %} <li ><a target="_blank" href="{{ paper.pdf }}">PDF</a></li> {% endif %}
-								{% if paper.slides %}<li ><a target="_blank" href="{{ paper.pdf }}">Slides</a></li> {% endif %}
+								{% if paper.slides %}<li ><a target="_blank" href="{{ paper.pdf }}">SLIDES</a></li> {% endif %}
 							</ul>
 						</div>
 						<div class="abstract">
