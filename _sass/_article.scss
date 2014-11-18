@@ -9,10 +9,19 @@ article {
       text-transform:uppercase;
     }
 
-    .media-appearance iframe.embed-video {
-      width: 30em;
-      height: 18em;
+    .media-appearance {
+
+      iframe.embed-video {
+        width: 30em;
+        height: 18em;
+        padding-top: 1em;
+        border:0px;
+      }
+      .article-excerpt {
+        padding-top: 1em;
+      }
     }
+
 
     .authors {
       font-size:0.9em;

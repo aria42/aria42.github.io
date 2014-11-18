@@ -3,11 +3,6 @@
   video_embed:  //player.vimeo.com/video/80151339
   link: http://vimeo.com/80151339
 
-- title: Two Ways Artificial Intelligence Contributes to Great User Experience
-  link: http://uxmag.com/articles/two-ways-artificial-intelligence-contributes-to-great-user-experience
-  venue: UX Magazine
-  article_excerpt: As someone who has done AI research for the better part of a decade, I'm often in the uncomfortable position of dispelling misconceptions about the state of AI.
-
 - title: A Funny Thing Happened on the Way to Academia . . .
   link: http://cacm.acm.org/blogs/blog-cacm/157645-a-funny-thing-happened-on-the-way-to-academia/fulltext
   venue: Communications of ACM
@@ -18,10 +13,21 @@
   venue: Clojure Conj 2013
   video_embed: https://www.youtube.com/embed/o_jtwIs2Ot8
 
+- title: Two Ways Artificial Intelligence Contributes to Great User Experience
+  link: http://uxmag.com/articles/two-ways-artificial-intelligence-contributes-to-great-user-experience
+  venue: UX Magazine
+  article_excerpt: As someone who has done AI research for the better part of a decade, I'm often in the uncomfortable position of dispelling misconceptions about the state of AI.
+
+
 - title: Startup Showcase on Prismatic
   link: https://www.youtube.com/watch?v=Dhy101RRkdo
   venue: Paid Content 2013
   video_embed: https://www.youtube.com/embed/Dhy101RRkdo
+
+- title: What Were The Techniques Prismatic Used To Achieve Such Snappy Performance In Its iOS App?
+  link: http://www.forbes.com/sites/quora/2012/08/30/what-were-the-techniques-prismatic-used-to-achieve-such-snappy-performance-in-its-ios-app/
+  venue: Forbes
+  article_excerpt: A lot of the snappiness comes from good decisions on the backend. We use a lot of custom data structures and algorithms to keep a good ‘hot’ set of news items in memory, so backend newsfeed calls touch mostly in-memory items.
 
 - title: Behind Prismatic
   link: https://www.youtube.com/watch?v=vogpmLlSU4E

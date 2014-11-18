@@ -12,11 +12,14 @@ title: Media
             </div>
 					<h2 class="title"><a href="{{ media.link }}"> {{ media.title }}</a></h2>
 					{% if media.video_embed %}
-						<iframe class="embed-video" src="{{ media.video_embed }}" webkitallowfullscreen="">
+						<iframe class="embed-video"
+                    align="center"
+ 										src="{{ media.video_embed }}"
+ 										webkitallowfullscreen="">
 						</iframe>
 					{% endif %}
 					{% if media.article_excerpt %}
-						<span> {{  media.article_excerpt }} </span>
+						<div class="article-excerpt"> {{  media.article_excerpt }}... </span>
 					{% endif %}
         </div>
         <hr>
