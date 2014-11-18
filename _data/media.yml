@@ -13,15 +13,15 @@
   venue: Communications of ACM
   article_excerpt: "I remember exactly when I knew I didn't want to be a pure mathematician. It was the Spring of my sophomore year and I was knee-deep in a math major at Stanford. It was 2003 and everyone was a computer science (CS) major, either prepping to be shipped off to Google or doing their own startups."
 
-- title: Startup Showcase on Prismatic
-  link: https://www.youtube.com/watch?v=Dhy101RRkdo
-  venue: Paid Content 2013
-  video_embed: https://www.youtube.com/embed/Dhy101RRkdo
-
 - title: Prismatic's Schema for Data Shape Declaration and Validation
   link: https://www.youtube.com/watch?v=o_jtwIs2Ot8
   venue: Clojure Conj 2013
   video_embed: https://www.youtube.com/embed/o_jtwIs2Ot8
+
+- title: Startup Showcase on Prismatic
+  link: https://www.youtube.com/watch?v=Dhy101RRkdo
+  venue: Paid Content 2013
+  video_embed: https://www.youtube.com/embed/Dhy101RRkdo
 
 - title: Behind Prismatic
   link: https://www.youtube.com/watch?v=vogpmLlSU4E
