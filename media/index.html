@@ -1,0 +1,25 @@
+---
+layout: base
+title: Media
+---
+<article class="container">
+    <!-- <section class="title"><h1>Academic Papers</h1></section> -->
+{% for media in site.data.media %}
+    <section class="index">
+        <div class="media-appearance">
+					<div class="meta">
+              <span> {{ media.venue }}</span>
+            </div>
+					<h2 class="title"><a href="{{ media.link }}"> {{ media.title }}</a></h2>
+					{% if media.video_embed %}
+						<iframe class="embed-video" src="{{ media.video_embed }}" webkitallowfullscreen="">
+						</iframe>
+					{% endif %}
+					{% if media.article_excerpt %}
+						<span> {{  media.article_excerpt }} </span>
+					{% endif %}
+        </div>
+        <hr>
+    </section>
+{% endfor %}
+</article>
