@@ -1,10 +1,24 @@
 // Tablet
 @media (max-width: 1024px)  {
-  .container > header, .container > section, .container > footer {
-      padding:0;
-      // padding-top:1em;
-      margin:0 4.0em;
-  }
+    .container > header, .container > section, .container > footer {
+        padding:0;
+        // padding-top:1em;
+        margin:0 4.0em;
+    }
+
+    article {
+    .media-appearance {
+        iframe.embed-video {
+          width: 25em;
+          height: 15em;
+          padding-top: 1em;
+          border:0px;
+        }
+        .article-excerpt {
+          padding-top: 1em;
+        }
+      }
+    }
 }
 
 @media (max-width: 5000px) and (min-width: 600px) {
@@ -86,6 +100,20 @@
         li {
           font-size: 0.8em;
         }
+
+
+    .media-appearance {
+        iframe.embed-video {
+          width: 20em;
+          height: 12em;
+          padding-top: 1em;
+          border:0px;
+        }
+        .article-excerpt {
+          padding-top: 1em;
+          -webkit-line-clamp: 2;
+        }
+      }
     }
 
 
