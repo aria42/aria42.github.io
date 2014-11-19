@@ -13,6 +13,11 @@ title: Blog
                 <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{ post.date | date: "%B %d, %Y" }}</time>
             </div>
             <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
+            {% if post.excerpt != '' %}
+						  <div class="article-excerpt">
+							 {{  post.excerpt }}
+						  </div>
+					  {% endif %}
         </div>
         {% if forloop.last %}
         <hr class="last-article-elem">

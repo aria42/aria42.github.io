@@ -10,7 +10,7 @@ status: publish
 latex: true
 type: post
 published: true
-excerpt: ""
+excerpt: Analaysis of the Clojure code sample that imprlements unsupervised part-of-speech tagger. 
 ---
 <a href="http://aria42.com/blog/?p=33">Last week</a>, I posted a <a href="http://gist.github.com/578348">300 line clojure script</a> which implements some <a href="http://www.cs.berkeley.edu/~aria42/pubs/typetagging.pdf">recent work</a> I've published in <a href="http://en.wikipedia.org/wiki/Part-of-speech_tagging">unsupervised part-of-speech tagging</a>. In this post, I'm going to describe more fully how the model works and also how the implementation works. This post is going to assume that you have some basic background in probability and that you know some clojure. The post is massive, so feel free to skip sections if you feel like something is too remedial; I've  put superfluous details in footnotes or marked paragraphs.
 

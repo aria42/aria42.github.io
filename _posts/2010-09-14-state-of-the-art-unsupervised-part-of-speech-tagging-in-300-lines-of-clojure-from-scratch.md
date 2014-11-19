@@ -9,7 +9,7 @@ status: publish
 latex: true
 type: post
 published: true
-excerpt: ""
+excerpt: A complete unsupervised part-of-speech model in 30 lines of Clojure
 meta:
   _edit_last: '1'
   superawesome: 'false'

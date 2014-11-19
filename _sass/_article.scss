@@ -17,21 +17,19 @@ article {
         padding-top: 1em;
         border:0px;
       }
-      .article-excerpt {
-        padding-top: 1em;
-      }
     }
-
+    .article-excerpt {
+        padding-top: 0.6em;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.95em;
+    }
 
     .authors {
       font-size:0.9em;
-    }
-
-    .excerpt {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
 
