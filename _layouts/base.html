@@ -43,6 +43,7 @@
     <meta property="og:site_name" content="{{ site.inc.title }}">
 
     <!-- MathTex -->
+    {% if page.latex %}
     <script type="text/javascript"
     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
       </script>
@@ -55,6 +56,7 @@
           jax: ["input/TeX","output/HTML-SVG"]
         }});
     </script>
+    {% endif %}
 
     <!-- Icon book -->
     <link href="/webfonts/ss-social-circle.css" rel="stylesheet" />
