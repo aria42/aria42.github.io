@@ -2,6 +2,7 @@
 layout: post
 
 title: Classification with Mira In Clojure
+latex: true
 # subtitle: "Mira explained"
 excerpt: A brief introduction to passive-agressive algorithm (sometimes erroneously called Mira.
 ---
@@ -303,5 +304,5 @@ One detail in the code is that it's usually better to use the average of weight 
 {% endhighlight   %}
 
 [^1]: Although unfortunately, like Java, you have to map to a Double object and pay the cost of boxing and unboxing.
-[^2]: The variant of working with here is for $k=1$ so the update has a closed form.
+[^2]: The variant of working with here is for $$ k=1 $$ so the update has a closed form.
 [^3]: You get this by looking at the <a href="http://en.wikipedia.org/wiki/Dual_problem">dual optimization problem</a>.

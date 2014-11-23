@@ -87,16 +87,14 @@
 {{ content }}
 
 <footer class="site-footer">
-    <div class="container" style="text-align:center;">
-        <div class="blah">
-        &copy; {{ site.time | date: "%Y" }} <a href="{{ site.inc.url }}">{{ site.inc.company }}</a>
-        </div>
         <div class="contact">
             <a href="http://twitter.com/aria42" class="home"><i class="ss-icon">twitter</i></a>
             <a href="http://github.com/aria42" class="home"><i class="ss-icon">octocat</i></a>
             <a href="mailto:me@aria42.com" class="home"><i class="ss-icon">email</i></a>
         </div>
-    </div>
+        <div class="blah">
+        &copy; {{ site.time | date: "%Y" }} <a href="{{ site.inc.url }}">{{ site.inc.company }}</a>
+        </div>
 </footer>
 
 {% include _scripts.html %}
