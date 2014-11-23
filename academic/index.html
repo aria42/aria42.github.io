@@ -20,9 +20,16 @@ title: Academic
 
 						<div class="toggler paper-section">
 							<ul class="paper-present">
-								{% if paper.abstract %}<li style="float:left;"><a onclick="javascript:toggleAbstract(this)">ABSTRACT</li>{% endif %}
-								{% if paper.pdf %} <li ><a target="_blank" href="{{ paper.pdf }}">PDF</a></li> {% endif %}
-								{% if paper.slides %}<li ><a target="_blank" href="{{ paper.pdf }}">SLIDES</a></li> {% endif %}
+								{% if paper.abstract %}
+                  <li style="float:left;"><a onclick="javascript:toggleAbstract(this)">ABSTRACT</a></li>
+                {% endif %}
+								{% if paper.pdf %}
+                  <li style="float:left;"><a target="_blank" href="{{ paper.pdf }}">PDF</a></li>
+                {% endif %}
+								{% if paper.slides %}
+                  <li style="float:left;"><a target="_blank" href="{{ paper.pdf }}">SLIDES</a></li>
+                {% endif %}
+                <li style="clear:both;"></li>
 							</ul>
 						</div>
 						<div class="abstract">
