@@ -10,7 +10,7 @@ status: publish
 latex: true
 type: post
 published: true
-excerpt: Analaysis of the Clojure code sample that imprlements unsupervised part-of-speech tagger. 
+excerpt: Analaysis of the Clojure code sample that imprlements unsupervised part-of-speech tagger.
 ---
 <a href="http://aria42.com/blog/?p=33">Last week</a>, I posted a <a href="http://gist.github.com/578348">300 line clojure script</a> which implements some <a href="http://www.cs.berkeley.edu/~aria42/pubs/typetagging.pdf">recent work</a> I've published in <a href="http://en.wikipedia.org/wiki/Part-of-speech_tagging">unsupervised part-of-speech tagging</a>. In this post, I'm going to describe more fully how the model works and also how the implementation works. This post is going to assume that you have some basic background in probability and that you know some clojure. The post is massive, so feel free to skip sections if you feel like something is too remedial; I've  put superfluous details in footnotes or marked paragraphs.
 
@@ -25,13 +25,13 @@ A subtle consequence of being unsupervised is that we aren't going to directly l
 
 ### How does the model work?
 The model is a variation on the standard Hidden Markov Model (HMM), which I'll briefly recap. The HMM unsupervised POS tagging story works as follows: We assume a fixed number of possible tag states, $$K$$ as well as a fixed vocabulary of size  $$V$$. The Markov model part of HMM refers to the fact that the probability distribution of tag states for a single sentence is generated under a first-order Markov assumption. I.e., the probability
-$$P(t_1,\ldots,t_m)$$ for a sentence of length $$m$$ is given by,
+$P(t_1,\ldots,t_m)$ for a sentence of length $m$ is given by,
 
 $$
 P(t_1,\ldots,t_m) = \prod_{i=1}^m P(t_{i+1} | t_i)
 $$
 
-This encodes the intuition that typically some kind of noun or adjectives usually follows a determiner (e.g. "the","a","this").[ref]For each tag $$t$$, there are transition parameters $$\psi_t$$ over successor tags, drawn from a Dirichlet distribution over $$K$$ elements and hyper-parameter $$\alpha$$. These parameterize the $$P(t_{i+1} | t_i)$$ distributions.[/ref]
+This encodes the intuition that typically some kind of noun or adjectives usually follows a determiner (e.g. "the","a","this").[^1]
 
 <div>
 Once the tags of the sentence have been generated, for each position, a word is drawn conditioned on the underlying tag. Specifically, for $i=1,\ldots,n$ a word $w_i$ is drawn conditioned on the corresponding tag  $t_i$, $P(w_i | t_i)$. This <emph>emission</emph> distribution is parametrized according to parameters $\theta_t$ for each tag $t$ over the $V$ vocabulary elements. So for instance, for tag state 42, which we suppose corresponds to a singular noun, there is a distribution over all possible singular nouns, that might look like this:<sup id="fnref:42"><a href="#fn:42" class="footnote">1</a></sup>
@@ -51,7 +51,7 @@ $$
 <h3>What's wrong with the HMM?</h3>
 There's a lot wrong with the HMM approach to learning POS structure. One of the most important is that the model doesn't encode the constraint that a given word typically should be associated with a few number of tags. The model is perfectly happy to learn that a given word can be generated any number of tags. A lot of doing unsupervised machine learning is understanding how to alter models to reflect the constraints and preferences that the structure we are interested in has.
 
-Another more subtle issue is that there is a significant skew to the number of words which belong to each part-of-speech category. For instance, there are very few determiners in most languages, but they appear very frequently at the token level. There is no way to encode this constraint that some tags are infrequent or frequent at the <emph>type-level</emph> (have very few (or many) unique word types that can use a given tag category). So the model has a prior $$P(T)$$ over tag assignments to words.[ref]This distribution is parametrized from a symmetric Dirichelt with hyper-parameter $$\beta$$ over $$K$$ possible tags.[/ref]
+Another more subtle issue is that there is a significant skew to the number of words which belong to each part-of-speech category. For instance, there are very few determiners in most languages, but they appear very frequently at the token level. There is no way to encode this constraint that some tags are infrequent or frequent at the <emph>type-level</emph> (have very few (or many) unique word types that can use a given tag category). So the model has a prior $$P(T)$$ over tag assignments to words.[^distribution]
 
 <h3>What's the approach in the paper?</h3>
 The approach in the paper is actually very simple: For each word type $$W_i$$, assign it a single legal tag state $$T_i$$. So for the word type "dog", the model chooses a single legal tag (amongst $$t=1,\ldots,K$$); essentially, decisions are made for each word once at the  type level, rather than at the token-level for each individual instantiation of the word. Once this has been done for the entire vocabulary, these type tag assignments constrain the HMM $$\theta_t$$ parameters so only words assigned to tag $$t$$ can have non-zero probability. Essentially, we strictly enforce the constrain that a given word be given a single tag throughout a corpus.
@@ -75,7 +75,7 @@ $$
 Once the tag assignments have been generated, everything proceeds identically to the standard token-level HMM except with the constraint that emission distributions have been constrained  so that a tag can only emit a word if that word has been assigned to the tag.
 
 <h3>How do you learn?</h3>
-The fairly simple change to the model made in the last section not only yields better performance, but also makes learning much simpler and efficient. Learning and inference will be done using <a href="http://en.wikipedia.org/wiki/Gibbs_sampling">Gibbs Sampling</a>. I can't go over Gibbs Sampling fully, but I'll summarize the idea in the context of this work.  The random variable we don't know in this model are the type-level assignments $$\mathbf{T} = T_1,\ldots, T_n$$. In the context of Bayesian models, we are interested in the posterior $$P(\mathbf{T} | \mathbf{W}, \mathbf{w})$$, where $$\mathbf{W}$$ and $$\mathbf{w}$$ denote the word types in the vocabulary and  the tokens of the corpus respectively; essentially, they're both observed data.[ref]Note that the token-level tags $$\mathbf{t}$$ are determined by type-assignments $$\mathbf{T}$$, since each word can only have one tag which can generate it.[/ref] We can obtain samples from this posterior by repeatedly sampling each of the $$T_i$$ variables with the  other assignments, denoted $$\mathbf{T}_{-i}$$, fixed. We sample $$T_i$$  according to the posterior $$P(T_i | \mathbf{T}_{-i}, \mathbf{W}, \mathbf{w})$$, which basically reprsents the following probability: If I assume all my other tag assignments are correct, what is the distribution for the tag assignment to the $$i$$th word. It's relatively straightforward to show that if we continually update the sampling state $$\mathbf{T}$$ one-tag-at-a-time in this way, at some point, the sampling state $$\mathbf{T}$$ is drawn from the desired posterior $$P(\mathbf{T} | \mathbf{W}, \mathbf{w})$$.[ref]In practice, for any real problem, one doesn't know when Gibbs Sampling, or MCMC in general, has "burned in".[/ref] So essentially, learning boils down to looping over tagging assignments and sampling values while all other decisions are fixed.
+The fairly simple change to the model made in the last section not only yields better performance, but also makes learning much simpler and efficient. Learning and inference will be done using <a href="http://en.wikipedia.org/wiki/Gibbs_sampling">Gibbs Sampling</a>. I can't go over Gibbs Sampling fully, but I'll summarize the idea in the context of this work.  The random variable we don't know in this model are the type-level assignments $$\mathbf{T} = T_1,\ldots, T_n$$. In the context of Bayesian models, we are interested in the posterior $$P(\mathbf{T} | \mathbf{W}, \mathbf{w})$$, where $$\mathbf{W}$$ and $$\mathbf{w}$$ denote the word types in the vocabulary and  the tokens of the corpus respectively; essentially, they're both observed data.[^observed] We can obtain samples from this posterior by repeatedly sampling each of the $$T_i$$ variables with the  other assignments, denoted $$\mathbf{T}_{-i}$$, fixed. We sample $$T_i$$  according to the posterior $$P(T_i | \mathbf{T}_{-i}, \mathbf{W}, \mathbf{w})$$, which basically reprsents the following probability: If I assume all my other tag assignments are correct, what is the distribution for the tag assignment to the $$i$$th word. It's relatively straightforward to show that if we continually update the sampling state $$\mathbf{T}$$ one-tag-at-a-time in this way, at some point, the sampling state $$\mathbf{T}$$ is drawn from the desired posterior $$P(\mathbf{T} | \mathbf{W}, \mathbf{w})$$.[^gibbs] So essentially, learning boils down to looping over tagging assignments and sampling values while all other decisions are fixed.
 
  In the original HMM, when using Gibbs Sampling, the state consists of all token-level assignments of words to tags. So the number of variables you need to sample is proportional to the number of words in the corpus, which can be massive. In this model, we only need to sample a variable for each word type, which is substantially smaller, and importantly grows very slowly relative to the amount of data you want to learn on.
 
@@ -89,16 +89,23 @@ $$
 \end{array}
 $$
 
-<div>
+
 Let me break down each of these terms. The $P(T_i = t | \mathbf{T}_{-i})$ is straight-forward to compute; if we count all the other tag assignments, the probability of assigning $T_i$ to $t$ is given by, $ \frac{n_{t} + \alpha}{n-1 + \alpha} $ where $n_t$ is the number of tags in $\mathbf{T}_{-i}$ which are currently assigned to $t$. The $\alpha$ term is the smoothing concentration parameter.[^params]
-</div>
+
 
 A similar reasoning is used to compute,
-$$! P(W_i | T_i = t,\mathbf{T}_{-i}) = \prod_{(f,v) \in W_i} P(v | f, T_i = t, \mathbf{T}_{-i}, \mathbf{W}_{-i}) $$
+
+$$
+ P(W_i | T_i = t,\mathbf{T}_{-i}) = \prod_{(f,v) \in W_i} P(v | f, T_i = t, \mathbf{T}_{-i}, \mathbf{W}_{-i}) $$
+
 which decomposes a product over the various features on the word type. Each individual feature probability can be computed by using counts of how often a feature value is seen for other words assigned to the same tag.
 
-The last term requires a little thinking. For the purpose of Gibbs Sampling, any probability term which doesn't involve the thing we're sampling, we can safely drop. At the token-level, the assignment of the $$i$$th word type to $$t$$ only affects the local contexts in which the $$i$$th word type appears. Let's use $$w$$ to denote the $$i$$th word type. Each usage of $$w$$ in the corpora are associated with a previous (before) word and a following (after) word.[ref]We pad each sentence with start and stop symbols to ensure this.[/ref] Let's use $$(b,w,a)$$ to represent the before word, the word itself, and the after word; so $$(b,w,a)$$ represents a trigram in the corpus. Let $$T(b)$$ and $$T(a)$$ denote the tag assignments to words $$b$$ and $$a$$ (this is given to us by $$\mathbf{T}$$). The only probability terms associated with this usage which not constant with respect to the $$T_i = t$$ assignment are:
-$$! P(w | T_i = t, \mathbf{T}_{-i}, \mathbf{w}_{-i}) P(t | T(b), \mathbf{T}) P(T(a) | t, \mathbf{T}) $$
+The last term requires a little thinking. For the purpose of Gibbs Sampling, any probability term which doesn't involve the thing we're sampling, we can safely drop. At the token-level, the assignment of the $$i$$th word type to $$t$$ only affects the local contexts in which the $$i$$th word type appears. Let's use $$w$$ to denote the $$i$$th word type. Each usage of $$w$$ in the corpora are associated with a previous (before) word and a following (after) word.[^pad] Let's use $$(b,w,a)$$ to represent the before word, the word itself, and the after word; so $$(b,w,a)$$ represents a trigram in the corpus. Let $$T(b)$$ and $$T(a)$$ denote the tag assignments to words $$b$$ and $$a$$ (this is given to us by $$\mathbf{T}$$). The only probability terms associated with this usage which not constant with respect to the $$T_i = t$$ assignment are:
+
+$$
+P(w | T_i = t, \mathbf{T}_{-i}, \mathbf{w}_{-i}) P(t | T(b), \mathbf{T}) P(T(a) | t, \mathbf{T})
+$$
+
 These terms are the probability of the word itself with the considered tag, the probability of transitioning to tag $$t$$ from the tag assigned to the previous word, and transitioning to the tag assigned to the successor word. The only terms which are relevant to the assignment come from all the context usages of the $$i$$th word type.
 Specifically, if $$C_i$$  represents the multi-set of such context usages, we have $$P(\mathbf{w} | T_i=t, \mathbf{T}_{-i})$$ is proportional to a product of the terms
 in each $$(b,w,a)$$ usage.  These probabilities can be computed by storing corpus level counts. Specifically for each word, we need counts of the <code>(before, after)</code> words as well as the counts for all individual words.
@@ -108,7 +115,7 @@ Okay, so after a lot of prep work, we're ready to dissect the code. I'm going to
 script can be found <a href="http://gist.github.com/578348">here</a>.
 
 <h3>It's all about counters</h3>
-So one of the basic data abstractions you need for probabilistic computing is a counter.[ref]A lot of the names for these abstractions come from <a href="http://www.cs.berkeley.edu/~klein/">Dan Klein</a>, my PhD advisor, but I'm pretty sure modulo the name, the abstractions are pretty universal from my survey of machine learning libraries.[/ref] Essentially, a counter is a map of items to their counts, that needs, for computing probabilities, to support a fast way to get the sum of all counts. Here's the code snippet that declares the appropriate data structure as well as the important methods. The proper way to do this is to make Counter a protocol (which I've done in my NLP clojure library <a href="http://github.com/aria42/mochi/blob/master/src/mochi/counter.clj">here</a>):
+So one of the basic data abstractions you need for probabilistic computing is a counter.[^library] Essentially, a counter is a map of items to their counts, that needs, for computing probabilities, to support a fast way to get the sum of all counts. Here's the code snippet that declares the appropriate data structure as well as the important methods. The proper way to do this is to make Counter a protocol (which I've done in my NLP clojure library <a href="http://github.com/aria42/mochi/blob/master/src/mochi/counter.clj">here</a>):
 
 {% gist 587011 %}
 
@@ -116,10 +123,10 @@ The two functions here are the only two we need for a counter: <code>inc-count</
 
 <h3>Dirichlet Distributions</h3>
 
-Once we have the <code>counter</code> abstraction, it's very straightforward to build a probability distribution; all the distributions here are over a finite number of possible events. This kind of distribution is called a <a href="http://en.wikipedia.org/wiki/Multinomial_distribution">multinomial</a>. Here, we use a <code>DiricheltMultinomial</code> which represent the a multinomial drawn from the symmetric <a href="http://en.wikipedia.org/wiki/Dirichlet_distribution">Dirichlet distribution</a>, which essentially means that all outcomes are given "fake" counts to smooth the probabilities (i.e., ensure no probability becomes zero or too small). The kinds of things we want to do with a distribution, simply include asking for the log-probability[ref]To guard against numerical underflow, we work primarily with log-probabilities.[/ref] and making a weighted observation which changes the probabilities the distribution produces. Here's the code. I'll give more explanation and examples after:
+Once we have the <code>counter</code> abstraction, it's very straightforward to build a probability distribution; all the distributions here are over a finite number of possible events. This kind of distribution is called a <a href="http://en.wikipedia.org/wiki/Multinomial_distribution">multinomial</a>. Here, we use a <code>DiricheltMultinomial</code> which represent the a multinomial drawn from the symmetric <a href="http://en.wikipedia.org/wiki/Dirichlet_distribution">Dirichlet distribution</a>, which essentially means that all outcomes are given "fake" counts to smooth the probabilities (i.e., ensure no probability becomes zero or too small). The kinds of things we want to do with a distribution, simply include asking for the log-probability[^underflow] and making a weighted observation which changes the probabilities the distribution produces. Here's the code. I'll give more explanation and examples after:
 
 
-[gist id="587021"]
+{% gist 587021 %}
 
 <b>Paragraph can be safely skipped</b>: The probabilities we need from the <code>DirichletMultinomial</code> are actually the "predictive" probabilities obtained from integrating out the Dirichelt parameters. Specifically, suppose  we have a distribution with $$n$$ possible event outcomes and  assume the multinomial over these $$n$$ events are drawn $$\theta \sim Dirichlet(n, \alpha)$$. Without observing any data, all $$n$$ outcomes are equally likely. Now, suppose we have observed data $$\mathbf{X}$$ and that $$n_i$$ is the number of times, we have observed the $$i$$th outcome in $$\mathbf{X}$$. Then, we want the probability of a new event $$e^*$$ given the observed data,
 
@@ -174,14 +181,17 @@ Okay, so let's take a top-down perspective for looking at how we make a simple G
 
 {% gist 587070 %}
 
-I didn't show you the <code>assign</code> and </code>unassign</code> functions. All they do is update the Gibbs Sampling state data structures to reflect the change in assignment for a given word as discussed above. They both are nice pure functions and return new states.
+I didn't show you the `assign` and `unassign` functions. All they do is update the Gibbs Sampling state data structures to reflect the change in assignment for a given word as discussed above. They both are nice pure functions and return new states.
 
-You also haven't seen <code>score-assign</code> and </code>sample-from-scores</code>, which I'll discuss now. <code>score-assign</code> will return something proportional to the log-probability of $$ P(T_i = t| \mathbf{T}_{-i}, \mathbf{W}, \mathbf{w})$$. </code>sample-from-scores</code> will take these scores from the possible assignments and sample one.
+You also haven't seen <code>score-assign</code> and `sample-from-scores`, which I'll discuss now. `score-assign` will return something proportional to the log-probability of
+$$P(T_i = t| \mathbf{T}_{-i}, \mathbf{W}, \mathbf{w})$$. `sample-from-scores` will take these scores from the possible assignments and sample one.
 
 Here's <code>score-assign</code>:
 {% gist 587075 %}
 
-The <code>(log-prob (:tag-prior state)  tag)</code> corresponds to $$P(T_i = t | \mathbf{T}_{-i})$$. The following <code>sum</code> form corresponds to the log of $$\prod_{(f,v) \in W_i} P(v | f, T_i)$$, the probability of the bundle of features associated with a given word type conditioned on the tag. The last top-level form (headed by <code>let</code>) has all the token-level terms:  $$P(w | \mathbf{T}, \mathbf{w}_{-i})^{n_i} \prod_{(b,a) \in C_i}  P(t | T(b), \mathbf{T}) P(T(a) | t, \mathbf{T})$$. That <code>let</code> statement needs to suppose that the tag assignment has already happened to correctly compute the probability of the word under the tag. The inner <code>sum</code> term for each <code>[[before-word after-word] count]</code> entry adds the log-probabilities for all these usages (I also lump in the word log-probability itself, although this could be in a separate term weighted with the total occurrence of the word).
+The `(log-prob (:tag-prior state)  tag)` corresponds to $$P(T_i = t | \mathbf{T}_{-i})$$. The following <code>sum</code> form corresponds to the log of $$\prod_{(f,v) \in W_i} P(v | f, T_i)$$, the probability of the bundle of features associated with a given word type conditioned on the tag. The last top-level form (headed by <code>let</code>) has all the token-level terms:  
+$$P(w | \mathbf{T},\mathbf{w}_{-i})^{n_i} \prod_{(b,a) \in C_i}  P(t | T(b), \mathbf{T}) P(T(a) | t,\mathbf{T})$$.
+That <code>let</code> statement needs to suppose that the tag assignment has already happened to correctly compute the probability of the word under the tag. The inner <code>sum</code> term for each <code>[[before-word after-word] count]</code> entry adds the log-probabilities for all these usages (I also lump in the word log-probability itself, although this could be in a separate term weighted with the total occurrence of the word).
 
 Note that the time it takes to score a given assignment is proportional to the number of unique contexts in which a word appears.
 
@@ -192,6 +202,13 @@ Once we have this function, we need to sample proportionally to these log-probab
 <h3>All the rest...</h3>
 From here, I think the rest of the code is straightforward. An iteration of the code consists of sampling each word's assignment. There is a lot of code towards the end for initializing state. The complexity here is due to the fact that I need to initialize all maps with distributions with the correct number of possible keys. I hope this code make sense.
 
+[^1]: For each tag $t$, there are transition parameters $\psi_t$ over successor tags, drawn from a Dirichlet distribution over $K$ elements and hyper-parameter $\alpha$. These parameterize the transition distribution.
+[^underflow]: To guard against numerical underflow, we work primarily with log-probabilities.
+[^library]: A lot of the names for these abstractions come from <a href="http://www.cs.berkeley.edu/~klein/">Dan Klein</a>, my PhD advisor, but I'm pretty sure modulo the name, the abstractions are pretty universal from my survey of machine learning libraries.
+[^pad]: We pad each sentence with start and stop symbols to ensure this.
+[^gibbs]: In practice, for any real problem, one doesn't know when Gibbs Sampling, or MCMC in general, has "burned in".
+[^observed]: Note that the token-level tags $$\mathbf{t}$$ are determined by type-assignments $$\mathbf{T}$$, since each word can only have one tag which can generate it.
+[^distribution]: This distribution is parametrized from a symmetric Dirichelt with hyper-parameter $$\beta$$ over $$K$$ possible tags.
 [^params]: I don't have the room to discuss this here, but this probability represents the "predictive" distribution obtained by integrating out the distribution parameters.
 [^42]: Each $$\theta_t$$ is drawn from a symmetric Dirichlet prior over $V$ elements and with concentration parameter $$\alpha$$ (shared with transition parameters for simplicity).
 [^3]: For each tag and feature-type, the distribution is parametrized by a symmetric Dirichlet over all possible feature-values and hyper-parameter $$\beta$$.
