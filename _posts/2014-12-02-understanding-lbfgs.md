@@ -2,7 +2,7 @@
 layout: post
 title: "Numerical Optimization: Understanding L-BFGS"
 latex: true
-date: 2014-12-01
+date: 2014-12-02
 excerpt: "Numerical optimization is at the core of much of machine learning. In this post, we derive the L-BFGS algorithm, commonly used in batch machine learning applications."
 ---
 
