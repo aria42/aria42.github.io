@@ -78,7 +78,7 @@ The above suggests an iterative algorithm:
 
 $$
 \begin{align}
- & \mathbf{NewtonRhapson}(f,x_0): \\
+ & \mathbf{NewtonRaphson}(f,x_0): \\
  & \qquad \mbox{For $n=0,1,\ldots$ (until converged)}: \\
  & \qquad \qquad \mbox{Compute $\grad_n$ and $\invhessian_n$ for $x_n$} \\
  & \qquad \qquad d = \invhessian_n \grad_n \\
@@ -89,7 +89,7 @@ $$
 
 The computation of the $\alpha$ step-size can use any number of [line search] algorithms. The simplest of these is [backtracking line search], where you simply try smaller and smaller values of $\alpha$ until the function value is 'small enough'.
 
-In terms of software engineering, we can treat $\mathbf{NewtonRhapson}$ as a blackbox for any twice-differentiable function which satisfies the Java interface:
+In terms of software engineering, we can treat $\mathbf{NewtonRaphson}$ as a blackbox for any twice-differentiable function which satisfies the Java interface:
 
 {% highlight java %}
 public interface TwiceDifferentiableFunction {
@@ -108,13 +108,13 @@ With quite a bit of tedious math, you can prove that for a [convex function], th
 
 ## Huge Hessians
 
-The central issue with $\mathbf{NewtonRhapson}$ is that we need to be able to compute the inverse Hessian matrix.[^implicit-multiply] Note that for ML applications, the dimensionality of the input to $f$ typically corresponds to model parameters. It's not unusual to have hundreds of millions of parameters or in some vision applications even [billions of parameters]. For these reasons, computing the hessian or its inverse is often impractical. For many functions, the hessian may not even be analytically computable, let along representable.
+The central issue with $\mathbf{NewtonRaphson}$ is that we need to be able to compute the inverse Hessian matrix.[^implicit-multiply] Note that for ML applications, the dimensionality of the input to $f$ typically corresponds to model parameters. It's not unusual to have hundreds of millions of parameters or in some vision applications even [billions of parameters]. For these reasons, computing the hessian or its inverse is often impractical. For many functions, the hessian may not even be analytically computable, let along representable.
 
-Because of these reasons, $\mathbf{NewtonRhapson}$ is rarely used in practice to optimize functions corresponding to large problems. Luckily, the above algorithm can still work even if $\invhessian_n$ doesn't correspond to the exact inverse hessian at $x_n$, but is instead a good approximation.
+Because of these reasons, $\mathbf{NewtonRaphson}$ is rarely used in practice to optimize functions corresponding to large problems. Luckily, the above algorithm can still work even if $\invhessian_n$ doesn't correspond to the exact inverse hessian at $x_n$, but is instead a good approximation.
 
 # Quasi-Newton
 
-Suppose that instead of requiring $\invhessian_n$ be the inverse hessian at $x_n$, we think of it as an approximation of this information. We can generalize $\mathbf{NewtonRhapson}$ to take a $\mbox{QuasiUpdate}$ policy which is responsible for producing a sequence of $\invhessian_n$.  
+Suppose that instead of requiring $\invhessian_n$ be the inverse hessian at $x_n$, we think of it as an approximation of this information. We can generalize $\mathbf{NewtonRaphson}$ to take a $\mbox{QuasiUpdate}$ policy which is responsible for producing a sequence of $\invhessian_n$.  
 
 $$
 \begin{align}
@@ -133,7 +133,7 @@ $$
 \end{align}
 $$
 
-We've assumed that $\mbox{QuasiUpdate}$ only requires the former inverse hessian estimate as well tas the input and gradient differences ($s_n$ and $y_n$ respectively). Note that if $\mbox{QuasiUpdate}$ just returns $\nabla^2 f(x_{n+1})$, we recover exact $\mbox{NewtonRhapson}$.
+We've assumed that $\mbox{QuasiUpdate}$ only requires the former inverse hessian estimate as well tas the input and gradient differences ($s_n$ and $y_n$ respectively). Note that if $\mbox{QuasiUpdate}$ just returns $\nabla^2 f(x_{n+1})$, we recover exact $\mbox{NewtonRaphson}$.
 
 In terms of software, we can blackbox optimize an arbitrary differentiable function (with no need to be able to compute a second derivative) using $\mathbf{QuasiNewton}$ assuming we get a quasi-newton approximation update policy. In Java this might look like this,
 
@@ -260,7 +260,7 @@ Since the only use for $\invhessian_n$ is via the product $\invhessian_n \grad_n
 
 ### L-BFGS: BFGS on a memory budget
 
-The BFGS quasi-newton approximation has the benefit of not requiring us to be able to analytically compute the Hessian of a function. However, we still must maintain a history of the $s_n$ and $y_n$ vectors for each iteration. Since one of the core-concerns of the $\mathbf{NewtonRhapson}$ algorithm were the memory requirements associated with maintaining an Hessian, the BFGS Quasi-Newton algorithm doesn't address that since our memory use can grow without bound.
+The BFGS quasi-newton approximation has the benefit of not requiring us to be able to analytically compute the Hessian of a function. However, we still must maintain a history of the $s_n$ and $y_n$ vectors for each iteration. Since one of the core-concerns of the $\mathbf{NewtonRaphson}$ algorithm were the memory requirements associated with maintaining an Hessian, the BFGS Quasi-Newton algorithm doesn't address that since our memory use can grow without bound.
 
 The L-BFGS algorithm, named for _limited_ BFGS, simply truncates the $$\mathbf{BFGSMultiply}$$ update to use the last $m$ input differences and gradient differences. This means, we only need to store $$s_n, s_{n-1},\ldots, s_{n-m-1}$$ and $$y_n, y_{n-1},\ldots, y_{n-m-1}$$ to compute the update. The center product can still use any symmetric psd matrix $$\invhessian_0$$, which can also depend on any $$\{s_k\}$$ or $$\{ y_k \}$$.
 
