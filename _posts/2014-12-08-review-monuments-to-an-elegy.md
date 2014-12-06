@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Album Review: Monuments To An Elegy (Smashing Pumpkins)"
-latex: true
+latex: false
 date: 2014-12-08
 excerpt: "My review of the new Smashing Pumpkins record."
 ---
