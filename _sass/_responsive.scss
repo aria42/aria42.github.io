@@ -31,6 +31,7 @@
     margin-left: 0.0em;
     margin-right: 0.0em;
   }
+
 }
 
 // Mobile
@@ -57,6 +58,23 @@
 
     article {
         padding-top:30px;
+
+        .half-right {
+          float: none;
+          width: 100%;
+          margin-left: 0em;
+        }
+
+        .no-bottom-margin {
+          margin-bottom: 0;
+        }
+
+        .third-right {
+          float: none;
+          width: 100%;          
+          margin-left: 0em;
+        }
+
 
 
         .meta {

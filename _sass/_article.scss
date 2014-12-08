@@ -9,6 +9,21 @@ article {
       text-transform:uppercase;
     }
 
+    .half-right {
+      float: right;
+      width: 50%;
+      margin-bottom: 1.5em;
+      margin-left: 1.5em;
+    }
+
+    .third-right {
+      float: right;
+      width: 33%;
+      margin-bottom: 1.0em;
+      margin-left: 1.0em;
+    }
+
+
     .media-appearance {
 
       iframe.embed-video {
