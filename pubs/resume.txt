@@ -1,0 +1,74 @@
+Aria Haghighi (aria42@stanford.edu)
+Resume Fall 2004
+------------------------
+
+Education:
+	Undergraduate: Stanford University,
+		- Overall GPA: 4.023 / 4.3 
+		- Major: Mathematics, B.S expected conferal 06/2005
+	Graduate: Stanford University (Coterminal Degree)expected conferal 06/2005
+		- M.S, Computer Science (Concentration in A.I) 
+	        - Graduate GPA >= 4.07 /4.3
+
+Interests:         -  Statistical and Computational Learning Theory
+                   -  Natural Language Processing / Computational Linguistics
+		   -  Artificial Intelligence (particularly probabilistic models and machine learning)
+		   -  Randomized Algorithms		   
+
+		    		   
+Relevant-Coursework:
+
+		- Math: Mesaure- Theoretical Probability , Statistical Inference 
+			    Real Analysis, Abstract Algebra ,
+			    Functional Analysis in Hilbert Space ,
+                            Advanced First-Order-Logic, Information Theory
+				
+		 - CS: Artificial Intelligence , Machine Learning ,
+		 	   Natural Language Processing, Reasoning Methods in A.I 
+                           Probalistic Models in A.I (Bayesian Networks) , Data Analysis 
+		 	   Advanced Algorithms , Randomized Algorithms ,
+		 	   Numerical Linear Algebrea ,                       
+		 	   
+		 	   
+		  - Linguistics: Courses in Syntax and General Linguistics
+		  
+		  - Psychology: Cognitive Psychology 
+
+ Publications:
+                - "Joint Learning Improves Semantic Role Labeling" (2005),
+                  Kristina Toutanova, Aria Haghighi, Chris Manning,
+                  submitted for acceptance to ACL 2005
+		 	   
+
+Past/Current-Experience:
+		
+		- Research Assistant with Andrew Ng at the Stanford A.I lab on the devolpment of Machine Learning
+		  approaches to Question/Answer systems and Textual Entailment. Various work in NLP including 
+		  Semantic Role Labeling.
+		  Reference: Andrew, Ng ang@cs.stanford.eud
+	
+		- Interned in the 'Natural Language Theory and Technology' group at PARC;
+		  worked on the construction of Ontologies for Automated Reasoning Tasks. Specifically
+		  going Syntax->Semantics using LFG parse and Cyc Ontology. 
+		  Reference: rstolle@parc.com
+		  
+		- Interned at 'Center for the Study of Language and Information' at Stanford University
+		  for the Infomap Project. My work consisted on using graphical and vector-space methods
+		  for NLP tasks. Also worked on unsupervised learning techniques for clustering word-senses
+		  based upon data from large corpora.
+		  Reference: dominic@csli.stanford.edu 
+		  		
+
+ Abilities:
+ 
+ 		- Fluent and have completed large projects in C,C++,Java, Perl, Python, Matlab, and R
+ 		- Conversant with TeX and LaTeX 
+ 		- Familiar with Mac OS X,Linux,Sun,and Windows OS (In that Order)
+ 		- Can Play A Mean Acoustic Guitar
+
+ 		
+ Awards:
+ 	- Part of National Championship Academic Decathlon Team in 2000-2001,
+ 		* Second Highest Individual Score in The Nation in 2000-2001
+ 	- President's Award for Academic Acheivment in The Freshman Year in 2002
+ 	   	
