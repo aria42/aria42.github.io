@@ -50,8 +50,6 @@ future:      false
 show_drafts: nil
 limit_posts: 0
 
-relative_permalinks: true
-
 permalink:     "/blog/:year/:month/:title"
 paginate_path: 'blog/page:num'
 paginate: 10
