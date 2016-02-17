@@ -63,7 +63,7 @@ $$
 \end{align}
 $$
 
-Recall that any $\Delta x$ which yields $\frac{\partial h_n(\Delta x)}{\partial \Delta x} = 0$ is a local extrema of $h_n(\cdot)$. If we assume that $\hessian_n$ is [postive semi-definite] (psd) then we know this $\Delta x$ is also a global minimum for $h_n(\cdot)$. Solving for $\Delta x$:[^why-global]
+Recall that any $\Delta x$ which yields $\frac{\partial h_n(\Delta x)}{\partial \Delta x} = 0$ is a local extrema of $h_n(\cdot)$. If we assume that $\hessian_n$ is [postive definite] (psd) then we know this $\Delta x$ is also a global minimum for $h_n(\cdot)$. Solving for $\Delta x$:[^why-global]
 
 $$
 \Delta x = - \invhessian_n \grad_n
@@ -231,7 +231,7 @@ where $\rho_n = (y_n^T s_n)^{-1}$. Proving this is relatively involved and mostl
 
 This update is known as the Broyden–Fletcher–Goldfarb–Shanno (BFGS) update, named after the original authors. Some things worth noting about this update:
 
-* $\invhessian_{n+1}$ is positive semi-definite (psd) when $\invhessian_n$ is. Assuming our initial guess of  $\hessian_0$ is psd, it follows by induction each inverse Hessian estimate is as well. Since we can choose any $\invhessian_0$ we want, including the $I$ matrix, this is easy to ensure.
+* $\invhessian_{n+1}$ is positive definite (psd) when $\invhessian_n$ is. Assuming our initial guess of  $\hessian_0$ is psd, it follows by induction each inverse Hessian estimate is as well. Since we can choose any $\invhessian_0$ we want, including the $I$ matrix, this is easy to ensure.
 
 * The above also specifies a recurrence relationship between $$\invhessian_{n+1}$$ and $$\invhessian_{n}$$. We only need the history of $$s_n$$ and $$y_n$$ to re-construct $$\invhessian_n$$.
 
@@ -274,7 +274,7 @@ One of the main reasons to _not_ use L-BFGS is in very large data-settings where
 <!-- Footnotes and Links -->
 
 [^global-min]:This assumes there is a unique global minimizer for $f$. In practice, in practice unless $f$ is convex, the parameters used are whatever pops out the other side of an iterative algorithm.
-[^why-global]: We know $- \invhessian \nabla f$ is a local extrema since the gradient is zero, since the Hessian has positive curvature, we know it's in fact a local minima. If $f$ is convex, we know the Hessian is always positive semi-definite and we know there is a single unique global minimum.
+[^why-global]: We know $- \invhessian \nabla f$ is a local extrema since the gradient is zero, since the Hessian has positive curvature, we know it's in fact a local minima. If $f$ is convex, we know the Hessian is always positive definite and we know there is a single unique global minimum.
 [^implicit-multiply]: As we'll see, we really on require being able to multiply by $\invhessian d$ for a direction $d$.
 [^weighted-norm]: I've intentionally left the weighting matrix $W$ used to weight the norm since you get the same solution under many choices. In particular for any positive-definite $W$ such that $W s_n = y_n$, we get the same solution.
 [AdaGrad]: http://www.magicbroom.info/Papers/DuchiHaSi10.pdf
