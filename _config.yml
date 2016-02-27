@@ -1,4 +1,5 @@
 inc:
+
   # Blog Information
   title:        "aria42"
   subtitle:     "Musings on everything and then some"
@@ -35,12 +36,16 @@ inc:
 
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
+gems:
+  - jekyll-gist
+  - jekyll-paginate
+
 hostname: "aria42.com"
 url:         http://aria42.com
 source:      .
 destination: ./_site
-plugins:     ./_plugins
-layouts:     ./_layouts
+plugins_dir:     ./_plugins
+layouts_dir:     ./_layouts
 include:     ['.htaccess']
 exclude:     []
 timezone:    nil
@@ -85,7 +90,7 @@ kramdown:
   entity_output: as_char
   toc_levels: 1..6
   smart_quotes: lsquo,rsquo,ldquo,rdquo
-  use_coderay: false
+  enable_coderay: false
 
   coderay:
     coderay_wrap: div
