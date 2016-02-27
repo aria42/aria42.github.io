@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Page Title -->
+    <title>aria42 &mdash; Musings on everything and then some</title>
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700|Roboto:400,500,600,700" rel="stylesheet" type="text/css">
+    
+    <meta name="title" content="aria42">
+    <!--  Style -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!-- <link rel="javascript" type="text/javascript" href="/js/main.js"> -->
+    <!--  Icon -->
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/images/favicon-ios.png"/>
+    <!--  RSS -->
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="aria42" />
+    <!--  Canonical -->
+    <link rel="canonical" href="http://aria42.com/">
+    <!--  Facebook OG -->
+    <meta property="og:title" content="aria42"/>
+    <meta property="og:url" content="http://aria42.com/"/>
+    
+    
+    <meta property="og:site_name" content="aria42">
+
+    <!-- MathTex -->
+    
+
+    <!-- Icon book -->
+    <link href="/webfonts/ss-social-circle.css" rel="stylesheet" />
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <ul id="navigation-menu">
+                <li>
+                  <a class="logo nav-button-home" href="/">
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="172px" height="173px" viewBox="0 0 172 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="logo" sketch:type="MSLayerGroup" transform="translate(-12.000000, -9.659028)">
+            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="97.9918197" cy="96.5029479" rx="85.9918197" ry="86.0129479"></ellipse>
+            <text id="42" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="179" font-weight="normal" sketch:alignment="middle" fill="#FFFFFF">
+                <tspan x="17.777" y="125">42</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-blog" href="/blog">
+                      BLOG
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-academic" href="/academic">
+                      ACADEMIC
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-media" href="/media">
+                      MEDIA
+                  </a>
+                </li>
+            
+            </ul>
+        </nav>
+    </header>
+</section>
+
+<article class="container">
+    <section class="index">
+      <section id="profile-nav">
+      <div class="profile" style="background-image:url(/images/aria.jpg);"></div>
+      </section>
+      <section class="about" style="clear:both;">
+      <p>
+      Hi, I'm Aria! I go by <code>aria42</code> wherever I can get the username.
+
+      <p>
+      I'm currently the CTO and Chief Archictect of <a href="">Pioneer Square Labs</a>. Prior to that I was the entrpreneur in residence with the <a href="http://allenai.org">Allen Institute for Artificial Intelligence</a>.
+      Before that, I was senior manager at <a href="http://apple.com">Apple</a> working on none of your business. Prior to Apple, I was co-founder and CTO of <a href="http://getprismatic.com">Prismatic</a>.
+In a previous life, I was an academic computer scientist in statistical natural language processing and machine learning. Check out my <a href="academic">academic papers</a> and vastly out of date <a href="pubs/cv.pdf">CV</a>!
+      </section>
+    </section>
+</article>
+
+
+<footer class="site-footer">
+        <div class="contact">
+            <a href="http://twitter.com/aria42" class="home"><i class="ss-icon">twitter</i></a>
+            <a href="http://github.com/aria42" class="home"><i class="ss-icon">octocat</i></a>
+            <a href="http://linkedin.com/in/aria42" class="home"><i class="ss-icon">linkedin</i></a>
+            <a href="mailto:me@aria42.com" class="home" style="margin-right:0em"><i class="ss-icon">email</i></a>
+        </div>
+        <div class="blah">
+        &copy; 2016 <a href="http://aria42.com/">aria42.com</a>
+        </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+
+
+
+
+<script src="/webfonts/ss-social.js"></script>
+<script>
+  function toggleAbstract(elem) {
+      $(elem).parents(".academic-paper").find(".abstract").toggle();
+  }
+
+  $(".full img").on("click", function() {
+  $(this).toggleClass("zoom");
+});
+
+SVGElement.prototype.addClass = function (className) {
+  if (!this.hasClass(className)) {
+    this.setAttribute('class', this.getAttribute('class') + ' ' + className);
+  }
+};
+
+$("a.nav-text-button").on({ 'touchstart' : function(){
+  $(this).addClass('active');
+}});
+
+$("a.nav-text-button").on({ 'touchend' : function(){
+  $(this).removeClass('active');
+}});
+$("a.nav-text-button").on({ 'touchleave' : function(){
+  $(this).removeClass('active');
+}});
+
+function svgFill() {
+  $('img[src$="svg"]').hide()
+    .each(function(i, item) {
+      var _this = this;
+      return $.get(this.src).success(function(data) {
+        var $svg, a, nName, nValue, _attr, _i, _len;
+        $svg = $(data).find('svg');
+        _attr = _this.attributes;
+        $.extend(_attr, $svg[0].attributes);
+        for (_i = 0, _len = _attr.length; _i < _len; _i++) {
+          a = _attr[_i];
+          nName = a.nodeName;
+          nValue = a.nodeValue;
+          if (nName !== 'src' && nName !== 'style') {
+            $svg.attr(nName, nValue);
+          }
+        }
+        return $(_this).replaceWith($svg);
+      });
+  });
+}
+
+var accented = "#428bca";
+
+function setupHeader() {
+  var uri = window.location.pathname.substring(1);
+  if (uri.indexOf("/") >= 0) {
+    uri = uri.substring(0, uri.indexOf("/"));
+  }
+  if (uri == "") {
+    var loop = setInterval(function() {
+      if ($(".nav-button-home svg ellipse").length) {
+        $(".nav-button-home svg ellipse").attr("fill",accented);
+      }
+    }, 5)
+  } else {
+    $(".nav-button-" + uri).addClass("accented");
+  }
+}
+
+(function() {
+  $(svgFill);
+  $(setupHeader);
+}).call(this);
+
+
+</script>
+
+  <!--google analytics tracking code here-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-57015155-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=5151559;
+var sc_invisible=1;
+var sc_security="c3abe7d5";
+</script>
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script>
+<!-- End of StatCounter Code for Default Guide -->
+
+
+
+
+</body>
+</html>

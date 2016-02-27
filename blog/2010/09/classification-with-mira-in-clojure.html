@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Page Title -->
+    <title>Classification with Mira In Clojure &mdash; aria42</title>
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700|Roboto:400,500,600,700" rel="stylesheet" type="text/css">
+    
+    <meta name="title" content="Classification with Mira In Clojure ">
+    <!--  Style -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!-- <link rel="javascript" type="text/javascript" href="/js/main.js"> -->
+    <!--  Icon -->
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/images/favicon-ios.png"/>
+    <!--  RSS -->
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="aria42" />
+    <!--  Canonical -->
+    <link rel="canonical" href="http://aria42.com/blog/2010/09/classification-with-mira-in-clojure">
+    <!--  Facebook OG -->
+    <meta property="og:title" content="Classification with Mira In Clojure "/>
+    <meta property="og:url" content="http://aria42.com/blog/2010/09/classification-with-mira-in-clojure"/>
+    
+    
+      <meta property="og:description" content="A brief introduction to passive-agressive algorithm (sometimes erroneously called Mira."/>
+      <meta name="description" content="A brief introduction to passive-agressive algorithm (sometimes erroneously called Mira."/>
+    
+    <meta property="og:site_name" content="aria42">
+
+    <!-- MathTex -->
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js"></script>
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      </script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+        "HTML-CSS": {
+          availableFonts: ["TeX"] ,
+          width: "container",
+          jax: ["input/TeX","output/HTML-SVG"]
+        }});
+    </script>
+    
+
+    <!-- Icon book -->
+    <link href="/webfonts/ss-social-circle.css" rel="stylesheet" />
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <ul id="navigation-menu">
+                <li>
+                  <a class="logo nav-button-home" href="/">
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="172px" height="173px" viewBox="0 0 172 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="logo" sketch:type="MSLayerGroup" transform="translate(-12.000000, -9.659028)">
+            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="97.9918197" cy="96.5029479" rx="85.9918197" ry="86.0129479"></ellipse>
+            <text id="42" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="179" font-weight="normal" sketch:alignment="middle" fill="#FFFFFF">
+                <tspan x="17.777" y="125">42</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-blog" href="/blog">
+                      BLOG
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-academic" href="/academic">
+                      ACADEMIC
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-media" href="/media">
+                      MEDIA
+                  </a>
+                </li>
+            
+            </ul>
+        </nav>
+    </header>
+</section>
+
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                <time pubdate datetime="2010-27-September" title="September 27, 2010">September 27, 2010</time>
+            </div>
+            <h1 class="title"><a href="/blog/2010/09/classification-with-mira-in-clojure">Classification with Mira In Clojure</a></h1>
+            
+        </header>
+
+        <section>
+            <p>A few people from <a href="http://aria42.com/blog/?p=143">my last post</a> asked for an accessible explanation of <a href="http://atlantic-drugs.net/products/viagra.htm">the</a> <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.61.5120&amp;rep=rep1&amp;type=pdf">margin infused relaxation algorithm (MIRA)</a> and <a href="http://www.cs.jhu.edu/~mdredze/publications/aistats10_diagfull.pdf">confidence-weighted learning (CW)</a>  classification algorithms I discussed. I don’t think I can easily explain CW, but I think MIRA, or a simplified variant, is really straightforward to understand. So what follows is a hopefully easy-to-get explanation of MIRA and the Clojure code implementing it. The code for the project is <a href="http://github.com/aria42/mira">available</a> on <a href="http://github.com">GitHub</a>.</p>
+
+<h1>The Online Machine Learning Setup</h1>
+
+<p>We’re assuming the standard <a href="http://en.wikipedia.org/wiki/Supervised_learning">supervised learning scenario</a>. We have access to a set of <em>labeled examples</em>: $(x_1,y_1),\ldots,(x_n,y_n)$, where $x_i$ is a feature vector and $y_i$ is a label or class. A feature vector is basically a set of key-value pairs where the key represents a feature, such as this document contains the word “awesome.” Each $y_i$ represents a label of interest about the feature vector $x_i$. For instance, $y_i$ might say this document (represented by $x_i$) has positive sentiment. Getting ahead of ourselves, in <a href="&quot;http://clojure.org&quot;">Clojure</a>, I implement a feature vector as just a map from anything to a double.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<p>The model family is just a simple linear family. For each possible label $y$, there is a weight vector $w_y$ over possible features. At any time for a given feature vector, $x$, we predict $\hat{y} = \arg\max_y w_y^T x$, where $w_y^T x$ represents the <a href="http://en.wikipedia.org/wiki/Dot_product">dot-product</a> between the vectors. Note that computing a dot-product can be done in time proportional to the sparser of the input vectors (which will be $x$ in this case). The score for each label is $w_y^T x$ and we simply select the highest scoring class/label.</p>
+
+<p>In particular, we’ll be working in the <a href="http://en.wikipedia.org/wiki/Online_machine_learning">online learning</a> which works as follows:</p>
+
+<figure class="highlight"><pre><code class="language-tex" data-lang="tex">Initialize weights <span class="p">$</span><span class="nb">w</span><span class="p">_</span><span class="nb">y</span><span class="p">$</span> to zero vector for each <span class="p">$</span><span class="nb">y</span><span class="p">$</span>
+For each iteration:
+  For each example <span class="p">$</span><span class="o">(</span><span class="nb">x,y</span><span class="p">^</span><span class="o">*)</span><span class="p">$</span>:
+    compute prediction: <span class="p">$</span><span class="nv">\hat</span><span class="p">{</span><span class="nb">y</span><span class="p">}</span><span class="nb"> </span><span class="o">=</span><span class="nb"> </span><span class="nv">\arg\max</span><span class="p">_</span><span class="nb">y w</span><span class="p">_</span><span class="nb">y</span><span class="p">^</span><span class="nb">T x</span><span class="p">$</span>
+    if <span class="p">$</span><span class="nb">y</span><span class="p">^</span><span class="o">*</span><span class="nb"> </span><span class="nv">\neq</span><span class="nb"> </span><span class="nv">\hat</span><span class="p">{</span><span class="nb">y</span><span class="p">}$</span>: update weight vectors <span class="p">$</span><span class="nb">w</span><span class="p">_{</span><span class="nb">y</span><span class="p">^</span><span class="o">*</span><span class="p">}$</span> and <span class="p">$</span><span class="nb">w</span><span class="p">_{</span><span class="nv">\hat</span><span class="p">{</span><span class="nb">y</span><span class="p">}}$</span></code></pre></figure>
+
+<p>MIRA is about a particular way of implementing the weight update step. Let’s look at that.</p>
+
+<h1>How MIRA works</h1>
+
+<p>Here’s how MIRA works.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> In response to an example pair <script type="math/tex">(x,y^*)</script>, we make an update to the current weight vector $w’_y$ to a new one $w_y$ for $y=\hat{y}$ and $y=y^*$. Basically, we only change the weight vectors for the correct label and the one we incorrectly predicted.  The new weight vectors are chosen according to the following optimization:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\min_w & \frac{1}{2}\|w_{y^*} - w_{y^*}'\|^2 + \frac{1}{2}\|w_{\hat{y}} - w_{\hat{y}}'\|^2   \\
+ \mbox{s.t.} &  w^T_{y^*} x - w^T_{\hat{y}} x \geq \ell(y^*,\hat{y}) \\  
+ & \hat{y} = \arg\max_{y} w_y'^T x
+\end{aligned} %]]></script>
+
+<h1 id="what-the-heck-does-that-mean">What the heck does that mean?</h1>
+
+<p>Here’s the optimization problem in words. Consider the prediction you would make <script type="math/tex">\hat{y}</script> which is best according to your current weights (<script type="math/tex">w'_y</script>s). You made an error, so you want to update <script type="math/tex">w_{y^*}</script> to score higher on <script type="math/tex">x</script> and update <script type="math/tex">w_{\hat{y}}</script> to score lower on <script type="math/tex">x</script>. The term <script type="math/tex">w^T_{y^*} x - w^T_{\hat{y}} x</script> represents the gap between the score for the correct answer and the predicted answer. This quantity can’t be positive for the old weights <script type="math/tex">w'</script> since <script type="math/tex">\hat{y}</script> scored at least as high as $y^*$; we made a mistake after all. We want the <em>new</em> weight vectors to have the property that this gap is positive and at least <script type="math/tex">\ell(y^*,\hat{y})</script>, a user-specific loss between the two labels. Typically this loss is just 1 when <script type="math/tex">\hat{y}\neq y^*</script>, but it can be more complex. This is the constraint we want for the new weight vectors <script type="math/tex">w_{y^*}</script> and <script type="math/tex">w_{\hat{y}}</script>. Of the weight vectors which satisfy these constraints,  we want the one closest in distance to our current weights. So we want to get the correct answer without changing things too much.</p>
+
+<h1 id="how-do-you-solve-the-problem">How do you solve the problem?</h1>
+
+<p>Using a little optimization theory, it’s straightforward to see that the solution for the new <script type="math/tex">w_{y^*}</script> and <script type="math/tex">w_{\hat{y}}</script> take the forms:<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
+
+<script type="math/tex; mode=display">\begin{array}{l}
+w_{y^*} \leftarrow w'_{y^*} + \alpha x \\
+w_{\hat{y}} \leftarrow w'_{\hat{y}} - \alpha x
+\end{array}</script>
+
+<p>Where $\alpha$ is some positive constant. Essentially, you want whatever features where active (non-zero) in <script type="math/tex">x</script> to get bigger for the correct answer $y^*$ and for
+the weights for the incorrect answer $w_{\hat{y}}$ to get smaller for those features active in $x$.</p>
+
+<p>You can just solve for $\alpha$ which satisfy the constraint:</p>
+
+<script type="math/tex; mode=display">(w'_{y^*} + \alpha x)^T x - (w'_{\hat{y}} - \alpha x)^T x
+	 \geq \ell(y^*,\hat{y})</script>
+
+<p>Using some basic algebra we get:</p>
+
+<script type="math/tex; mode=display">(w'^T_{y^*} x - w'^T_{\hat{y}} x) + 2 \alpha \| x \|^2  \geq \ell(y^*,\hat{y})</script>
+
+<p>Solving for <script type="math/tex">\alpha</script> yields:</p>
+
+<script type="math/tex; mode=display">\alpha \geq \frac{\ell(y^*,\hat{y}) - (  w'^T_{y^*} x - w'^T_{\hat{y}} x )}{2 \| x \|^2}</script>
+
+<p>Any $\alpha$ which satisfies the above will satisfy our condition. Since we need to make the smallest changes possible, this corresponds to selecting the smallest $\alpha$ which satisfies the constraint. Basically we set $\alpha$ to the right hand-side of the above.  So the $\alpha$ is composed of: the loss,  the gap with the current weights ($w’$), and the datum norm $\left( \| x \|^2 \right)$. Once we compute alpha, we make weight vector updates and move on through the rest of the examples. Notice that once we make a pass over the data and don’t make an error, the weights never change.</p>
+
+<h1>Clojure Code</h1>
+<p>Here’s the Clojure code for implementing MIRA. I implement machine learning vectors via the clojure map where the keys are typically strings given as input. This isn’t the most efficient encoding, but it makes the code easier to write. This code has been fairly optimized and is reasonably fast. It can write weights to disk, load them and make predictions on new datums. In general, when I need quick and dirty multi-class classifcation, I’ll use this.</p>
+
+<p>One detail in the code is that it’s usually better to use the average of weight vectors over all updates rather than the final weight vectors. We accomplish this by tracking the sum over all weight vectors (<code>:cum-label-weights</code>). In order to make the updates to the summed vector efficient, we need to know how many updates are left to go. This way we can add the contribution of the current update to all future updates.</p>
+
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="w">  </span><span class="p">(</span><span class="nf">ns</span><span class="w"> </span><span class="n">mira</span><span class="w">  
+  </span><span class="p">{</span><span class="no">:doc</span><span class="w"> </span><span class="s">"Implements margin-infused relaxation algorithm (MIRA)
+         multi-class classifcation Fairly optimized."</span><span class="w">
+   </span><span class="no">:author</span><span class="w"> </span><span class="s">"Me &lt;me@aria42.com&gt;"</span><span class="p">}</span><span class="w">
+  </span><span class="p">(</span><span class="no">:gen-class</span><span class="p">)</span><span class="w">
+  </span><span class="p">(</span><span class="no">:use</span><span class="w"> </span><span class="p">[</span><span class="n">clojure.string</span><span class="w"> </span><span class="no">:only</span><span class="w"> </span><span class="p">[</span><span class="nb">join</span><span class="p">]]</span><span class="w">
+        </span><span class="p">[</span><span class="n">clojure.java.io</span><span class="w"> </span><span class="no">:only</span><span class="w"> </span><span class="p">[</span><span class="n">reader</span><span class="p">]]))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">dot-product</span><span class="w">
+  </span><span class="s">"dot-product between two maps (sum over matching values)
+   Bottleneck: written to be efficient"</span><span class="w">
+  </span><span class="p">[</span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="p">]</span><span class="w">  
+  </span><span class="p">(</span><span class="nb">loop</span><span class="w"> </span><span class="p">[</span><span class="n">sum</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">y</span><span class="p">]</span><span class="w">
+    </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">f</span><span class="w"> </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">y</span><span class="p">)]</span><span class="w">
+      </span><span class="p">(</span><span class="nf">if-not</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">sum</span><span class="w">
+        </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">k</span><span class="w"> </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w">  </span><span class="n">v</span><span class="w"> </span><span class="p">(</span><span class="nb">second</span><span class="w"> </span><span class="n">f</span><span class="p">)]</span><span class="w">
+          </span><span class="p">(</span><span class="nf">recur</span><span class="w"> </span><span class="p">(</span><span class="nb">+</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="p">(</span><span class="nb">*</span><span class="w"> </span><span class="p">(</span><span class="nb">get</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="n">v</span><span class="p">))</span><span class="w">
+                 </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">y</span><span class="p">)))))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="p">[</span><span class="n">f</span><span class="w"> </span><span class="n">xs</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="nb">reduce</span><span class="w"> </span><span class="nb">+</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">xs</span><span class="p">)))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">norm-sq</span><span class="w">
+  </span><span class="s">"||x||^2 over values in map x"</span><span class="w">
+  </span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="nf">sum</span><span class="w"> </span><span class="o">#</span><span class="p">(</span><span class="nb">*</span><span class="w"> </span><span class="n">%</span><span class="w"> </span><span class="n">%</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="nb">second</span><span class="w"> </span><span class="n">x</span><span class="p">)))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">add-scaled</span><span class="w">
+ </span><span class="s">"x &lt;- x + scale * y
+  Bottleneck: written to be efficient"</span><span class="w">
+ </span><span class="p">[</span><span class="n">x</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="n">y</span><span class="p">]</span><span class="w">
+ </span><span class="p">(</span><span class="nf">persistent!</span><span class="w">
+  </span><span class="p">(</span><span class="nb">reduce</span><span class="w">
+    </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="p">[</span><span class="n">res</span><span class="w"> </span><span class="n">elem</span><span class="p">]</span><span class="w">
+      </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">k</span><span class="w"> </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">elem</span><span class="p">)</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="p">(</span><span class="nb">second</span><span class="w"> </span><span class="n">elem</span><span class="p">)]</span><span class="w">
+         </span><span class="p">(</span><span class="nf">assoc!</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">(</span><span class="nb">+</span><span class="w"> </span><span class="p">(</span><span class="nb">get</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">*</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="n">v</span><span class="p">)))))</span><span class="w">
+     </span><span class="p">(</span><span class="nf">transient</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+     </span><span class="n">y</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1">; Needed for averaged weight vector
+</span><span class="p">(</span><span class="k">def</span><span class="w"> </span><span class="n">+updates-left+</span><span class="w"> </span><span class="p">(</span><span class="nf">atom</span><span class="w"> </span><span class="n">nil</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">; (cum)-label-weights: label -&gt; (cum)-weights
+</span><span class="p">(</span><span class="nf">defrecord</span><span class="w"> </span><span class="n">Mira</span><span class="w"> </span><span class="p">[</span><span class="n">loss-fn</span><span class="w"> </span><span class="n">label-weights</span><span class="w"> </span><span class="n">cum-label-weights</span><span class="p">])</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">new-mira</span><span class="w">
+  </span><span class="p">[</span><span class="n">labels</span><span class="w"> </span><span class="n">loss-fn</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">empty-weights</span><span class="w"> </span><span class="o">#</span><span class="p">(</span><span class="nb">into</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">[</span><span class="n">l</span><span class="w"> </span><span class="n">labels</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">l</span><span class="w"> </span><span class="p">{}]))]</span><span class="w">
+    </span><span class="p">(</span><span class="nf">Mira.</span><span class="w"> </span><span class="n">loss-fn</span><span class="w"> </span><span class="p">(</span><span class="nf">empty-weights</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">empty-weights</span><span class="p">))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">get-labels</span><span class="w">
+  </span><span class="s">"return possible labels for task"</span><span class="w">
+  </span><span class="p">[</span><span class="n">mira</span><span class="p">]</span><span class="w">  </span><span class="p">(</span><span class="nb">keys</span><span class="w"> </span><span class="p">(</span><span class="no">:label-weights</span><span class="w"> </span><span class="n">mira</span><span class="p">)))</span><span class="w">  
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">get-score-fn</span><span class="w">
+  </span><span class="s">"return fn: label =&gt; model-score-of-label"</span><span class="w">
+  </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="w">
+    </span><span class="p">(</span><span class="nf">dot-product</span><span class="w"> </span><span class="p">((</span><span class="no">:label-weights</span><span class="w"> </span><span class="n">mira</span><span class="p">)</span><span class="w"> </span><span class="n">label</span><span class="p">)</span><span class="w"> </span><span class="n">datum</span><span class="p">)))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">get-loss</span><span class="w">
+  </span><span class="s">"get loss for predicting predict-label
+   in place of gold-label"</span><span class="w">
+  </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="n">gold-label</span><span class="w"> </span><span class="n">predict-label</span><span class="p">]</span><span class="w">
+  </span><span class="p">((</span><span class="no">:loss-fn</span><span class="w"> </span><span class="n">mira</span><span class="p">)</span><span class="w"> </span><span class="n">gold-label</span><span class="w"> </span><span class="n">predict-label</span><span class="p">))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">ppredict</span><span class="w">
+   </span><span class="s">"When you have lots of classes,  useful to parallelize prediction"</span><span class="w">
+  </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">score-fn</span><span class="w"> </span><span class="p">(</span><span class="nf">get-score-fn</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">)</span><span class="w">
+        </span><span class="n">label-parts</span><span class="w"> </span><span class="p">(</span><span class="nf">partition-all</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">(</span><span class="nf">get-labels</span><span class="w"> </span><span class="n">mira</span><span class="p">))</span><span class="w">
+        </span><span class="n">part-fn</span><span class="w"> </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="p">[</span><span class="n">label-part</span><span class="p">]</span><span class="w">
+                  </span><span class="p">(</span><span class="nb">reduce</span><span class="w">
+                    </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="p">[</span><span class="n">res</span><span class="w"> </span><span class="n">label</span><span class="p">]</span><span class="w">
+                       </span><span class="p">(</span><span class="nb">assoc</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="p">(</span><span class="nf">score-fn</span><span class="w"> </span><span class="n">label</span><span class="p">)))</span><span class="w">
+                    </span><span class="p">{}</span><span class="w"> </span><span class="n">label-part</span><span class="p">))</span><span class="w">
+        </span><span class="n">score-parts</span><span class="w"> </span><span class="p">(</span><span class="nf">pmap</span><span class="w"> </span><span class="n">part-fn</span><span class="w"> </span><span class="n">label-parts</span><span class="p">)</span><span class="w">
+        </span><span class="n">scores</span><span class="w"> </span><span class="p">(</span><span class="nb">apply</span><span class="w"> </span><span class="nb">merge</span><span class="w"> </span><span class="n">score-parts</span><span class="p">)]</span><span class="w">
+    </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="p">(</span><span class="nb">apply</span><span class="w"> </span><span class="nb">max-key</span><span class="w"> </span><span class="nb">second</span><span class="w"> </span><span class="n">scores</span><span class="p">))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">predict</span><span class="w">
+  </span><span class="s">"predict highest scoring class"</span><span class="w">
+  </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">&gt;</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="p">(</span><span class="nf">get-labels</span><span class="w"> </span><span class="n">mira</span><span class="p">))</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">
+    </span><span class="p">(</span><span class="nf">ppredict</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">)</span><span class="w">
+    </span><span class="p">(</span><span class="nb">apply</span><span class="w"> </span><span class="nb">max-key</span><span class="w"> </span><span class="p">(</span><span class="nf">get-score-fn</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">get-labels</span><span class="w"> </span><span class="n">mira</span><span class="p">))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">update-weights</span><span class="w">
+  </span><span class="s">"returns new weights assuming error predict-label instead of gold-label.
+   delta-vec is the direction and alpha the scaling constant"</span><span class="w">
+  </span><span class="p">[</span><span class="n">label-weights</span><span class="w"> </span><span class="n">delta-vec</span><span class="w"> </span><span class="n">gold-label</span><span class="w"> </span><span class="n">predict-label</span><span class="w"> </span><span class="n">alpha</span><span class="p">]</span><span class="w">  
+  </span><span class="p">(</span><span class="nb">-&gt;</span><span class="w">  </span><span class="n">label-weights</span><span class="w">
+       </span><span class="p">(</span><span class="nf">update-in</span><span class="w"> </span><span class="p">[</span><span class="n">gold-label</span><span class="p">]</span><span class="w">  </span><span class="n">add-scaled</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="n">delta-vec</span><span class="p">)</span><span class="w">
+       </span><span class="p">(</span><span class="nf">update-in</span><span class="w"> </span><span class="p">[</span><span class="n">predict-label</span><span class="p">]</span><span class="w"> </span><span class="n">add-scaled</span><span class="w"> </span><span class="p">(</span><span class="nb">-</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="n">delta-vec</span><span class="p">)))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">update-mira</span><span class="w">
+  </span><span class="s">"update mira for an example returning [new-mira error?]"</span><span class="w">
+  </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="w"> </span><span class="n">gold-label</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">predict-label</span><span class="w"> </span><span class="p">(</span><span class="nf">predict</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">)]</span><span class="w">
+       </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="n">predict-label</span><span class="w"> </span><span class="n">gold-label</span><span class="p">)</span><span class="w">
+            </span><span class="c1">; If we get it right do nothing
+</span><span class="w">            </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="n">false</span><span class="p">]</span><span class="w">
+            </span><span class="c1">; otherwise, update weights
+</span><span class="w">            </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">score-fn</span><span class="w"> </span><span class="p">(</span><span class="nf">get-score-fn</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">)</span><span class="w">
+                  </span><span class="n">loss</span><span class="w"> </span><span class="p">(</span><span class="nf">get-loss</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">gold-label</span><span class="w"> </span><span class="n">predict-label</span><span class="p">)</span><span class="w">
+                  </span><span class="n">gap</span><span class="w"> </span><span class="p">(</span><span class="nb">-</span><span class="w"> </span><span class="p">(</span><span class="nf">score-fn</span><span class="w"> </span><span class="n">gold-label</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">score-fn</span><span class="w"> </span><span class="n">predict-label</span><span class="p">))</span><span class="w">
+                  </span><span class="n">alpha</span><span class="w">  </span><span class="p">(</span><span class="nb">/</span><span class="w"> </span><span class="p">(</span><span class="nb">-</span><span class="w"> </span><span class="n">loss</span><span class="w">  </span><span class="n">gap</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">(</span><span class="nf">norm-sq</span><span class="w"> </span><span class="n">datum</span><span class="p">)))</span><span class="w">
+                  </span><span class="n">avg-factor</span><span class="w"> </span><span class="p">(</span><span class="nb">*</span><span class="w"> </span><span class="err">@</span><span class="n">+updates-left+</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w">
+                  </span><span class="n">new-mira</span><span class="w"> </span><span class="p">(</span><span class="nb">-&gt;</span><span class="w"> </span><span class="n">mira</span><span class="w">
+                            </span><span class="c1">; Update Current Weights
+</span><span class="w">                            </span><span class="p">(</span><span class="nf">update-in</span><span class="w"> </span><span class="p">[</span><span class="no">:label-weights</span><span class="p">]</span><span class="w">
+                              </span><span class="n">update-weights</span><span class="w"> </span><span class="n">datum</span><span class="w"> </span><span class="n">gold-label</span><span class="w">
+                                    </span><span class="n">predict-label</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w">
+                            </span><span class="c1">; Update Average (cumulative) Weights  
+</span><span class="w">                            </span><span class="p">(</span><span class="nf">update-in</span><span class="w"> </span><span class="p">[</span><span class="no">:cum-label-weights</span><span class="p">]</span><span class="w">
+                              </span><span class="n">update-weights</span><span class="w"> </span><span class="n">datum</span><span class="w"> </span><span class="n">gold-label</span><span class="w">
+                              </span><span class="n">predict-label</span><span class="w"> </span><span class="n">avg-factor</span><span class="p">))]</span><span class="w">
+              </span><span class="p">[</span><span class="n">new-mira</span><span class="w"> </span><span class="n">true</span><span class="p">]))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">train-iter</span><span class="w">
+  </span><span class="s">"Training pass over data, returning [new-mira num-errors], where
+   num-errors is the number of mistakes made on training pass"</span><span class="w">
+  </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="n">labeled-data-fn</span><span class="p">]</span><span class="w">
+   </span><span class="p">(</span><span class="nb">reduce</span><span class="w">
+     </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="p">[[</span><span class="n">cur-mira</span><span class="w"> </span><span class="n">num-errors</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">datum</span><span class="w"> </span><span class="n">gold-label</span><span class="p">]]</span><span class="w">
+       </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[[</span><span class="n">new-mira</span><span class="w"> </span><span class="n">error?</span><span class="p">]</span><span class="w">
+              </span><span class="p">(</span><span class="nf">update-mira</span><span class="w"> </span><span class="n">cur-mira</span><span class="w"> </span><span class="n">datum</span><span class="w"> </span><span class="n">gold-label</span><span class="p">)]</span><span class="w">
+          </span><span class="p">(</span><span class="nf">swap!</span><span class="w"> </span><span class="n">+updates-left+</span><span class="w"> </span><span class="nb">dec</span><span class="p">)</span><span class="w">
+          </span><span class="p">[</span><span class="n">new-mira</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="n">error?</span><span class="w"> </span><span class="p">(</span><span class="nb">inc</span><span class="w"> </span><span class="n">num-errors</span><span class="p">)</span><span class="w"> </span><span class="n">num-errors</span><span class="p">)]))</span><span class="w">
+     </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="w">
+     </span><span class="p">(</span><span class="nf">labeled-data-fn</span><span class="p">)))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">train</span><span class="w">
+  </span><span class="s">"do num-iters iterations over labeled-data (yielded by labeled-data-fn)"</span><span class="w">
+  </span><span class="p">[</span><span class="n">labeled-data-fn</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="n">num-iters</span><span class="w"> </span><span class="n">loss-fn</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="nb">loop</span><span class="w"> </span><span class="p">[</span><span class="n">iter</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="p">(</span><span class="nf">new-mira</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="n">loss-fn</span><span class="p">)]</span><span class="w">
+    </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="n">num-iters</span><span class="p">)</span><span class="w">
+        </span><span class="n">mira</span><span class="w">
+        </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[[</span><span class="n">new-mira</span><span class="w"> </span><span class="n">num-errors</span><span class="p">]</span><span class="w">  </span><span class="p">(</span><span class="nf">train-iter</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">labeled-data-fn</span><span class="p">)]</span><span class="w">
+          </span><span class="p">(</span><span class="nb">println</span><span class="w">
+            </span><span class="p">(</span><span class="nf">format</span><span class="w"> </span><span class="s">"[MIRA] On iter %s made %s training mistakes"</span><span class="w">
+                    </span><span class="n">iter</span><span class="w"> </span><span class="n">num-errors</span><span class="p">))</span><span class="w">
+          </span><span class="c1">; If we don't make mistakes, never will again  
+</span><span class="w">          </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">zero?</span><span class="w"> </span><span class="n">num-errors</span><span class="p">)</span><span class="w">
+            </span><span class="n">new-mira</span><span class="w"> </span><span class="p">(</span><span class="nf">recur</span><span class="w"> </span><span class="p">(</span><span class="nb">inc</span><span class="w"> </span><span class="n">iter</span><span class="p">)</span><span class="w"> </span><span class="n">new-mira</span><span class="p">))))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">feat-vec-from-line</span><span class="w">
+  </span><span class="s">"format: feat1:val1 ... featn:valn. feat is a string and val a double"</span><span class="w">
+  </span><span class="p">[</span><span class="o">#^</span><span class="n">String</span><span class="w"> </span><span class="n">line</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">[</span><span class="o">#^</span><span class="n">String</span><span class="w"> </span><span class="n">piece</span><span class="w"> </span><span class="p">(</span><span class="nf">.split</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="s">"\\s+"</span><span class="p">)</span><span class="w">
+        </span><span class="no">:let</span><span class="w"> </span><span class="p">[</span><span class="n">split-index</span><span class="w"> </span><span class="p">(</span><span class="nf">.indexOf</span><span class="w"> </span><span class="n">piece</span><span class="w"> </span><span class="s">":"</span><span class="p">)</span><span class="w">
+              </span><span class="n">feat</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">neg?</span><span class="w"> </span><span class="n">split-index</span><span class="p">)</span><span class="w">
+                      </span><span class="n">piece</span><span class="w">
+                      </span><span class="p">(</span><span class="nf">.substring</span><span class="w"> </span><span class="n">piece</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">split-index</span><span class="p">))</span><span class="w">
+              </span><span class="n">value</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">neg?</span><span class="w"> </span><span class="n">split-index</span><span class="p">)</span><span class="w"> </span><span class="mi">1</span><span class="w">
+                      </span><span class="p">(</span><span class="nb">-&gt;</span><span class="w"> </span><span class="n">piece</span><span class="w"> </span><span class="p">(</span><span class="nf">.substring</span><span class="w"> </span><span class="p">(</span><span class="nb">inc</span><span class="w"> </span><span class="n">split-index</span><span class="p">))</span><span class="w">
+                          </span><span class="n">Double/parseDouble</span><span class="p">))]]</span><span class="w">
+    </span><span class="p">[</span><span class="n">feat</span><span class="w"> </span><span class="n">value</span><span class="p">]))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">load-labeled-data</span><span class="w">
+  </span><span class="s">"format: label feat1:val1 .... featn:valn"</span><span class="w">
+  </span><span class="p">[</span><span class="nb">path</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">[</span><span class="n">line</span><span class="w"> </span><span class="p">(</span><span class="nb">line-seq</span><span class="w"> </span><span class="p">(</span><span class="nf">reader</span><span class="w"> </span><span class="nb">path</span><span class="p">))</span><span class="w">
+        </span><span class="no">:let</span><span class="w"> </span><span class="p">[</span><span class="n">pieces</span><span class="w"> </span><span class="p">(</span><span class="nf">.split</span><span class="w"> </span><span class="o">#^</span><span class="n">String</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="s">"\\s+"</span><span class="p">)</span><span class="w">
+              </span><span class="n">label</span><span class="w"> </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">pieces</span><span class="p">)</span><span class="w">
+              </span><span class="n">feat-vec</span><span class="w"> </span><span class="p">(</span><span class="nf">feat-vec-from-line</span><span class="w">
+                          </span><span class="p">(</span><span class="nb">join</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">pieces</span><span class="p">)))]]</span><span class="w">
+    </span><span class="p">[</span><span class="n">feat-vec</span><span class="w"> </span><span class="n">label</span><span class="p">]))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">load-data</span><span class="w">
+  </span><span class="s">"load data without label"</span><span class="w">
+  </span><span class="p">[</span><span class="nb">path</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="n">feat-vec-from-line</span><span class="w"> </span><span class="p">(</span><span class="nb">line-seq</span><span class="w"> </span><span class="p">(</span><span class="nf">reader</span><span class="w"> </span><span class="nb">path</span><span class="p">))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">normalize-vec</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">norm</span><span class="w"> </span><span class="p">(</span><span class="nf">Math/sqrt</span><span class="w"> </span><span class="p">(</span><span class="nf">norm-sq</span><span class="w"> </span><span class="n">x</span><span class="p">))]</span><span class="w">
+    </span><span class="p">(</span><span class="nb">into</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">[[</span><span class="n">k</span><span class="w"> </span><span class="n">v</span><span class="p">]</span><span class="w"> </span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">k</span><span class="w"> </span><span class="p">(</span><span class="nb">/</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">norm</span><span class="p">)]))))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">-main</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="w"> </span><span class="n">args</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="nf">case</span><span class="w"> </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w">
+    </span><span class="s">"train"</span><span class="w">
+      </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[[</span><span class="n">data-path</span><span class="w"> </span><span class="n">num-iters</span><span class="w"> </span><span class="n">outfile</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w">
+            </span><span class="n">labeled-data-fn</span><span class="w"> </span><span class="o">#</span><span class="p">(</span><span class="nf">load-labeled-data</span><span class="w"> </span><span class="n">data-path</span><span class="p">)</span><span class="w">
+            </span><span class="n">labels</span><span class="w"> </span><span class="p">(</span><span class="nb">into</span><span class="w"> </span><span class="o">#</span><span class="p">{}</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="nb">second</span><span class="w"> </span><span class="p">(</span><span class="nf">labeled-data-fn</span><span class="p">)))</span><span class="w">
+            </span><span class="n">num-iters</span><span class="w"> </span><span class="p">(</span><span class="nf">Integer/parseInt</span><span class="w"> </span><span class="n">num-iters</span><span class="p">)]</span><span class="w">
+        </span><span class="c1">; For Average Weight Calculation
+</span><span class="w">        </span><span class="p">(</span><span class="nf">compare-and-set!</span><span class="w"> </span><span class="n">+updates-left+</span><span class="w"> </span><span class="n">nil</span><span class="w">
+            </span><span class="p">(</span><span class="nb">*</span><span class="w"> </span><span class="n">num-iters</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="p">(</span><span class="nf">labeled-data-fn</span><span class="p">))))</span><span class="w">
+        </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">mira</span><span class="w"> </span><span class="p">(</span><span class="nf">train</span><span class="w"> </span><span class="n">labeled-data-fn</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="n">num-iters</span><span class="w">  </span><span class="p">(</span><span class="nb">constantly</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">
+              </span><span class="n">avg-weights</span><span class="w">
+                </span><span class="p">(</span><span class="nb">into</span><span class="w"> </span><span class="p">{}</span><span class="w">
+                  </span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">[[</span><span class="n">label</span><span class="w"> </span><span class="n">sum-weights</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="no">:cum-label-weights</span><span class="w"> </span><span class="n">mira</span><span class="p">)]</span><span class="w">
+                    </span><span class="p">[</span><span class="n">label</span><span class="w"> </span><span class="p">(</span><span class="nf">normalize-vec</span><span class="w"> </span><span class="n">sum-weights</span><span class="p">)]))]</span><span class="w">
+          </span><span class="p">(</span><span class="nb">println</span><span class="w"> </span><span class="s">"[MIRA] Done Training. Writing weights to "</span><span class="w"> </span><span class="n">outfile</span><span class="p">)</span><span class="w">
+          </span><span class="p">(</span><span class="nf">spit</span><span class="w"> </span><span class="n">outfile</span><span class="w"> </span><span class="n">avg-weights</span><span class="p">)))</span><span class="w">
+    </span><span class="s">"predict"</span><span class="w">
+      </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[[</span><span class="n">weight-file</span><span class="w"> </span><span class="n">data-file</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w">
+            </span><span class="n">weights</span><span class="w"> </span><span class="p">(</span><span class="nf">read-string</span><span class="w"> </span><span class="p">(</span><span class="nb">slurp</span><span class="w"> </span><span class="n">weight-file</span><span class="p">))</span><span class="w">
+            </span><span class="n">mira</span><span class="w"> </span><span class="p">(</span><span class="nf">Mira.</span><span class="w">  </span><span class="p">(</span><span class="nb">constantly</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">weights</span><span class="w"> </span><span class="n">weights</span><span class="p">)]</span><span class="w">
+        </span><span class="p">(</span><span class="nb">doseq</span><span class="w"> </span><span class="p">[</span><span class="n">datum</span><span class="w"> </span><span class="p">(</span><span class="nf">load-data</span><span class="w"> </span><span class="n">data-file</span><span class="p">)]</span><span class="w">
+          </span><span class="p">(</span><span class="nb">println</span><span class="w"> </span><span class="p">(</span><span class="nf">predict</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">datum</span><span class="p">))))</span><span class="w">
+    </span><span class="s">"test"</span><span class="w">
+      </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[[</span><span class="n">weight-file</span><span class="w"> </span><span class="n">data-file</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w">
+            </span><span class="n">weights</span><span class="w"> </span><span class="p">(</span><span class="nf">read-string</span><span class="w"> </span><span class="p">(</span><span class="nb">slurp</span><span class="w"> </span><span class="n">weight-file</span><span class="p">))</span><span class="w">
+            </span><span class="n">mira</span><span class="w"> </span><span class="p">(</span><span class="nf">Mira.</span><span class="w"> </span><span class="p">(</span><span class="nb">constantly</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">weights</span><span class="w"> </span><span class="n">weights</span><span class="p">)</span><span class="w">
+            </span><span class="n">labeled-test</span><span class="w"> </span><span class="p">(</span><span class="nf">load-labeled-data</span><span class="w"> </span><span class="n">data-file</span><span class="p">)</span><span class="w">
+            </span><span class="n">gold-labels</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="nb">second</span><span class="w"> </span><span class="n">labeled-test</span><span class="p">)</span><span class="w">
+            </span><span class="n">predict-labels</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="o">#</span><span class="p">(</span><span class="nf">predict</span><span class="w"> </span><span class="n">mira</span><span class="w"> </span><span class="n">%</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="nb">first</span><span class="w"> </span><span class="n">labeled-test</span><span class="p">))</span><span class="w">
+            </span><span class="n">num-errors</span><span class="w"> </span><span class="p">(</span><span class="nf">-&gt;&gt;</span><span class="w"> </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="nb">vector</span><span class="w"> </span><span class="n">gold-labels</span><span class="w"> </span><span class="n">predict-labels</span><span class="p">)</span><span class="w">
+                            </span><span class="p">(</span><span class="nf">sum</span><span class="w"> </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="p">[[</span><span class="n">gold</span><span class="w"> </span><span class="n">predict</span><span class="p">]]</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">not=</span><span class="w"> </span><span class="n">gold</span><span class="w"> </span><span class="n">predict</span><span class="p">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="p">))))]</span><span class="w">
+        </span><span class="p">(</span><span class="nb">println</span><span class="w"> </span><span class="s">"Error: "</span><span class="w"> </span><span class="p">(</span><span class="nb">double</span><span class="w"> </span><span class="p">(</span><span class="nb">/</span><span class="w"> </span><span class="n">num-errors</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="n">gold-labels</span><span class="p">))))))</span><span class="w">
+    </span><span class="p">(</span><span class="nf">shutdown-agents</span><span class="p">))</span></code></pre></figure>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Although unfortunately, like Java, you have to map to a Double object and pay the cost of boxing and unboxing. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>The variant of working with here is for <script type="math/tex">k=1</script> so the update has a closed form. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>You get this by looking at the <a href="http://en.wikipedia.org/wiki/Dual_problem">dual optimization problem</a>. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </section>
+    </div>
+</article>
+
+
+<footer class="site-footer">
+        <div class="contact">
+            <a href="http://twitter.com/aria42" class="home"><i class="ss-icon">twitter</i></a>
+            <a href="http://github.com/aria42" class="home"><i class="ss-icon">octocat</i></a>
+            <a href="http://linkedin.com/in/aria42" class="home"><i class="ss-icon">linkedin</i></a>
+            <a href="mailto:me@aria42.com" class="home" style="margin-right:0em"><i class="ss-icon">email</i></a>
+        </div>
+        <div class="blah">
+        &copy; 2016 <a href="http://aria42.com/">aria42.com</a>
+        </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+
+
+
+
+<script src="/webfonts/ss-social.js"></script>
+<script>
+  function toggleAbstract(elem) {
+      $(elem).parents(".academic-paper").find(".abstract").toggle();
+  }
+
+  $(".full img").on("click", function() {
+  $(this).toggleClass("zoom");
+});
+
+SVGElement.prototype.addClass = function (className) {
+  if (!this.hasClass(className)) {
+    this.setAttribute('class', this.getAttribute('class') + ' ' + className);
+  }
+};
+
+$("a.nav-text-button").on({ 'touchstart' : function(){
+  $(this).addClass('active');
+}});
+
+$("a.nav-text-button").on({ 'touchend' : function(){
+  $(this).removeClass('active');
+}});
+$("a.nav-text-button").on({ 'touchleave' : function(){
+  $(this).removeClass('active');
+}});
+
+function svgFill() {
+  $('img[src$="svg"]').hide()
+    .each(function(i, item) {
+      var _this = this;
+      return $.get(this.src).success(function(data) {
+        var $svg, a, nName, nValue, _attr, _i, _len;
+        $svg = $(data).find('svg');
+        _attr = _this.attributes;
+        $.extend(_attr, $svg[0].attributes);
+        for (_i = 0, _len = _attr.length; _i < _len; _i++) {
+          a = _attr[_i];
+          nName = a.nodeName;
+          nValue = a.nodeValue;
+          if (nName !== 'src' && nName !== 'style') {
+            $svg.attr(nName, nValue);
+          }
+        }
+        return $(_this).replaceWith($svg);
+      });
+  });
+}
+
+var accented = "#428bca";
+
+function setupHeader() {
+  var uri = window.location.pathname.substring(1);
+  if (uri.indexOf("/") >= 0) {
+    uri = uri.substring(0, uri.indexOf("/"));
+  }
+  if (uri == "") {
+    var loop = setInterval(function() {
+      if ($(".nav-button-home svg ellipse").length) {
+        $(".nav-button-home svg ellipse").attr("fill",accented);
+      }
+    }, 5)
+  } else {
+    $(".nav-button-" + uri).addClass("accented");
+  }
+}
+
+(function() {
+  $(svgFill);
+  $(setupHeader);
+}).call(this);
+
+
+</script>
+
+  <!--google analytics tracking code here-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-57015155-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=5151559;
+var sc_invisible=1;
+var sc_security="c3abe7d5";
+</script>
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script>
+<!-- End of StatCounter Code for Default Guide -->
+
+
+
+
+</body>
+</html>

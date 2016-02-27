@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Page Title -->
+    <title>The Relation between MIRA and CW Learning &mdash; aria42</title>
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700|Roboto:400,500,600,700" rel="stylesheet" type="text/css">
+    
+    <meta name="title" content="The Relation between MIRA and CW Learning ">
+    <!--  Style -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!-- <link rel="javascript" type="text/javascript" href="/js/main.js"> -->
+    <!--  Icon -->
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/images/favicon-ios.png"/>
+    <!--  RSS -->
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="aria42" />
+    <!--  Canonical -->
+    <link rel="canonical" href="http://aria42.com/blog/2010/09/the-relation-between-mira-and-cw-learning">
+    <!--  Facebook OG -->
+    <meta property="og:title" content="The Relation between MIRA and CW Learning "/>
+    <meta property="og:url" content="http://aria42.com/blog/2010/09/the-relation-between-mira-and-cw-learning"/>
+    
+    
+      <meta property="og:description" content="Exploring the relationship between MIRA and confidence-weighted learning."/>
+      <meta name="description" content="Exploring the relationship between MIRA and confidence-weighted learning."/>
+    
+    <meta property="og:site_name" content="aria42">
+
+    <!-- MathTex -->
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js"></script>
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      </script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+        "HTML-CSS": {
+          availableFonts: ["TeX"] ,
+          width: "container",
+          jax: ["input/TeX","output/HTML-SVG"]
+        }});
+    </script>
+    
+
+    <!-- Icon book -->
+    <link href="/webfonts/ss-social-circle.css" rel="stylesheet" />
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <ul id="navigation-menu">
+                <li>
+                  <a class="logo nav-button-home" href="/">
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="172px" height="173px" viewBox="0 0 172 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="logo" sketch:type="MSLayerGroup" transform="translate(-12.000000, -9.659028)">
+            <ellipse id="Oval-1" fill="#444444" sketch:type="MSShapeGroup" cx="97.9918197" cy="96.5029479" rx="85.9918197" ry="86.0129479"></ellipse>
+            <text id="42" sketch:type="MSTextLayer" font-family="Plantagenet Cherokee" font-size="179" font-weight="normal" sketch:alignment="middle" fill="#FFFFFF">
+                <tspan x="17.777" y="125">42</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-blog" href="/blog">
+                      BLOG
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-academic" href="/academic">
+                      ACADEMIC
+                  </a>
+                </li>
+            
+                <li>
+                  <a class="nav-text-button nav-button-media" href="/media">
+                      MEDIA
+                  </a>
+                </li>
+            
+            </ul>
+        </nav>
+    </header>
+</section>
+
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                <time pubdate datetime="2010-24-September" title="September 24, 2010">September 24, 2010</time>
+            </div>
+            <h1 class="title"><a href="/blog/2010/09/the-relation-between-mira-and-cw-learning">The Relation between MIRA and CW Learning</a></h1>
+            
+        </header>
+
+        <section>
+            <p><strong>Note:</strong> This post won’t make sense unless you’re steeped in recent <a href="http://en.wikipedia.org/wiki/Machine_learning">machine learning</a>. There’s a good chance that if you are, you already know this.</p>
+
+<p>During a machine learning reading group with <a href="http://people.csail.mit.edu/mcollins/">Mike Collins</a>, <a href="http://www.stanford.edu/~jrfinkel/">Jenny Finkel</a>,  Alexander Rush and myself were reading a paper about <a href="http://www.cs.jhu.edu/~mdredze/publications/aistats10_diagfull.pdf">confidence-weighted (CW) learning</a>. At a very high-level, CW is a online learning approach: you make updates to parameters after observing a labeled examples $(x,y^*)$. Online methods have enjoyed a lot of popularity recently: the <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.61.5120&amp;rep=rep1&amp;type=pdf">margin infused relaxation algorithm (MIRA)</a><sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> and <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.161.9629&amp;rep=rep1&amp;type=pdf">Primal Estimated sub-GrAdient SOlver for SVM (PEGASOS)</a><sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>. These techniques are much simpler and faster to converge than their batch counterparts; the performance gap is or has become negligible (although there might be folks who disagree).</p>
+
+<p>One thing we wanted to understand better is how this approach is different from MIRA. One obvious difference which the authors push is that they’re capturing variance of individual features as well as between features which yields stronger performance. Those are all valid points. But if we strip the feature covariance out of the picture how does the update optimization problem differ? The answer, I think, is that they’re essentially equivalent modulo one subtle difference which is probably important. This is probably obvious to machine learning gurus, but it took me a few minutes to work out. I’m sure this observation is even spelled out in one of the CW papers.</p>
+
+<p><b>MIRA:</b> Here’s the variant of MIRA I’m working with. You have a current weight vector $\mu’$ and you want to update to a new weight vector $\mu$ based on a new example pair $(x,y^*)$ :</p>
+
+<script type="math/tex; mode=display">\begin{array}{l}
+ \min_\mu \|\mu - \mu'\|^2  \hspace{2pt} \mbox{s.t.}  \hspace{2pt} \mu^T \Delta f \geq \gamma \\  
+ \hat{y} = \arg\max_{y} \mu^T f(x,y)   \\
+ \Delta f = f(x,y^*) - f(x,\hat{y})
+\end{array}</script>
+
+<p>Here $\gamma &gt; 0$ is typically a fixed constant and the above update is done only when an error is made $(\hat{y} \neq y^*)$.</p>
+
+<p><b>CW:</b>  In contrast, CW doesn’t have a single weight vector, it has distribution over weight vectors $w \sim \mathcal{N}(\mu,\Sigma)$. In normal CW, you get the covariance matrix $\Sigma$ as parameters. Here, I’m considering a variant where the covariance matrix is fixed to be the identity.<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> The only parameters I’m considering here are the mean weight vector $\mu$. The update optimization for CW in this context is given by:</p>
+
+<script type="math/tex; mode=display">\begin{array}{l}
+\min_\mu  KL(\mathcal{N}(\mu',I) | \mathcal{N}(\mu,I))\cr
+\mbox{s.t.} \hspace{2pt}  P(w^T \Delta f \geq 0) \geq \eta \cr
+ \hspace{15pt} w \sim \mathcal{N}(\mu, I)
+\end{array}</script>
+
+<p>The <script type="math/tex">KL(\cdot)</script>
+is the <a href="http://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Liebler Divergence</a>. If you take a look at the expression for the KL diverence between two gaussians, <a href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution#Kullback.E2.80.93Leibler_divergence">here</a>, it’s pretty straightforward to see that if the covariance matrices are the identity,  the KL divergence is within a constant of $| \mu - \mu’ |^2$.</p>
+
+<p>Now for the constraint. The first thing to notice is that</p>
+
+<script type="math/tex; mode=display">w^{T} \Delta f \sim \mathcal{N}(\mu^{T} \Delta f, \| \Delta f \|^{2})</script>
+
+<p>So if $Z$ is a zero-mean unit-variance gaussian, we want</p>
+
+<script type="math/tex; mode=display">P(\| \Delta f \| Z + \mu^{T} \Delta f \geq 0) = P\left(Z \geq -\frac{ \mu^{T} \Delta f}{\| \Delta f \|}\right)</script>
+
+<p>If $\Phi$ is the cumulative distribution function for the unit-normal, we want:
+<script type="math/tex">1 - \Phi\left(-\frac{ \mu^{T} \Delta f}{\| \Delta f \|}\right) \geq \eta</script></p>
+
+<p>This implies,</p>
+
+<script type="math/tex; mode=display">\Phi\left(-\frac{ \mu^{T} \Delta f}{\| \Delta f \|}\right) \leq 1 - \eta \Rightarrow
+	    erf\left(\frac{ \mu^{T} \Delta f}{\sqrt{2} \| \Delta f \|}\right) \leq 1 - 2\eta</script>
+
+<p>where $erf(\cdot)$ is the <a href="http://en.wikipedia.org/wiki/Error_function">error function</a>.</p>
+
+<p>Here’s the subtlety: If we assume that our feature vectors $(x,y)$ are normalized and that for any two $y,y’$ that $f(x,y)$ and $f(x,y’)$ don’t overlap in non-zero features (which is common in NLP since weight vectors are partitioned for different $y$s) then $| \Delta f |$ is a constant independent of the particular update. In which case, ensuring $erf (c \mu^{T} \Delta f) \leq 1 - 2 \eta$ (assuming $\eta &gt; 0.5$) just amounts to making sure $\mu^{T} \Delta f$ exceeds some constant independent of the particular update, which is equivalent to selecting that choice of $\gamma$ in MIRA.  So the two optimizations are essentially the same.</p>
+
+<p>However, if feature vectors are not normalized, then the two aren’t equivalent. Essentially, the larger the feature vector norm the larger the “gap” term $\mu^T \Delta f$ needs to be. If you have exclusively binary features, which many NLP applications do, this means the more features active in a datum, the larger “gap” ($\mu^T \Delta f$) we require. This makes a lot of sense. We can get this in MIRA pretty straightforwardly:</p>
+
+<script type="math/tex; mode=display">\begin{array}{l}
+\min_\mu \|\mu - \mu'\|^2  \\
+\hspace{2pt} \mbox{s.t.} \hspace{2pt} \mu^T \Delta f > \gamma \| \Delta f \| \\
+\end{array}</script>
+
+<p>then it’s always equivalent modulo constant choices. I don’t actually know if the $ \| \Delta f \|$ scaling improves accuracy, but I wouldn’t be surprised if it did.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>This algorithm is actually called the Passive Aggressive algorithm, but I’ve always known it as MIRA. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Yes I know, it’s a tortured <a href="http://en.wikipedia.org/wiki/Backronym">backronym</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>In practice, you wouldn’t use this variant, here I’m just trying to get a handle on the objective <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </section>
+    </div>
+</article>
+
+
+<footer class="site-footer">
+        <div class="contact">
+            <a href="http://twitter.com/aria42" class="home"><i class="ss-icon">twitter</i></a>
+            <a href="http://github.com/aria42" class="home"><i class="ss-icon">octocat</i></a>
+            <a href="http://linkedin.com/in/aria42" class="home"><i class="ss-icon">linkedin</i></a>
+            <a href="mailto:me@aria42.com" class="home" style="margin-right:0em"><i class="ss-icon">email</i></a>
+        </div>
+        <div class="blah">
+        &copy; 2016 <a href="http://aria42.com/">aria42.com</a>
+        </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+
+
+
+
+<script src="/webfonts/ss-social.js"></script>
+<script>
+  function toggleAbstract(elem) {
+      $(elem).parents(".academic-paper").find(".abstract").toggle();
+  }
+
+  $(".full img").on("click", function() {
+  $(this).toggleClass("zoom");
+});
+
+SVGElement.prototype.addClass = function (className) {
+  if (!this.hasClass(className)) {
+    this.setAttribute('class', this.getAttribute('class') + ' ' + className);
+  }
+};
+
+$("a.nav-text-button").on({ 'touchstart' : function(){
+  $(this).addClass('active');
+}});
+
+$("a.nav-text-button").on({ 'touchend' : function(){
+  $(this).removeClass('active');
+}});
+$("a.nav-text-button").on({ 'touchleave' : function(){
+  $(this).removeClass('active');
+}});
+
+function svgFill() {
+  $('img[src$="svg"]').hide()
+    .each(function(i, item) {
+      var _this = this;
+      return $.get(this.src).success(function(data) {
+        var $svg, a, nName, nValue, _attr, _i, _len;
+        $svg = $(data).find('svg');
+        _attr = _this.attributes;
+        $.extend(_attr, $svg[0].attributes);
+        for (_i = 0, _len = _attr.length; _i < _len; _i++) {
+          a = _attr[_i];
+          nName = a.nodeName;
+          nValue = a.nodeValue;
+          if (nName !== 'src' && nName !== 'style') {
+            $svg.attr(nName, nValue);
+          }
+        }
+        return $(_this).replaceWith($svg);
+      });
+  });
+}
+
+var accented = "#428bca";
+
+function setupHeader() {
+  var uri = window.location.pathname.substring(1);
+  if (uri.indexOf("/") >= 0) {
+    uri = uri.substring(0, uri.indexOf("/"));
+  }
+  if (uri == "") {
+    var loop = setInterval(function() {
+      if ($(".nav-button-home svg ellipse").length) {
+        $(".nav-button-home svg ellipse").attr("fill",accented);
+      }
+    }, 5)
+  } else {
+    $(".nav-button-" + uri).addClass("accented");
+  }
+}
+
+(function() {
+  $(svgFill);
+  $(setupHeader);
+}).call(this);
+
+
+</script>
+
+  <!--google analytics tracking code here-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-57015155-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=5151559;
+var sc_invisible=1;
+var sc_security="c3abe7d5";
+</script>
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script>
+<!-- End of StatCounter Code for Default Guide -->
+
+
+
+
+</body>
+</html>
