@@ -15,11 +15,6 @@ body {
     min-height:100%;
 }
 
-@font-face {
-    font-family:'Plantagenet Cherokee';
-    src: url('/webfonts/PlantagenetCherokee.ttf') format('truetype');
-}
-
 .is-visible {
 
     .site-nav {
@@ -102,6 +97,10 @@ a.home {
         margin-top:0;
         margin-right:30px;
     }
+}
+
+.logo img {
+    width: 42px;
 }
 
 .blog-cover {
