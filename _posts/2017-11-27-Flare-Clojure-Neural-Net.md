@@ -1,11 +1,10 @@
 ---
 layout: post
+type: post
 title: "Flare: Clojure Dynamic Neural Net Library"
-draft: false
 latex: true
-draft: true
-date: 2017-10-31
-excerpt: ""
+date: 2017-11-27
+excerpt: "I write a library for dynamic neural nets in Clojure."
 ---
 
 **tl;dr**: *I wrote [Flare](https://github.com/aria42/flare), a Dynamic Neural Net library in Clojure. It currently can do some non-trivial things and it's pretty fast: about 2.5x-3x faster than [PyTorch](http://pytorch.org/) for a CPU-based [a simple Bi-LSTM classifier](https://github.com/aria42/flare/blob/master/src/flare/examples/bilstm_tag.clj) (although PyTorch does **many** more things and is vastly more stable).*
@@ -48,8 +47,6 @@ While the above example is slightly verbose compared to PyTorch, for longer piec
         init-state (node/const "c0"  zero)]
     (reify RNNCell
       (add-input! [this input last-output last-state]
-        (flare/validate-shape! [input-dim] (:shape input))
-        (flare/validate-shape! [hidden-dim] (:shape last-state))
         (let [x (cg/concat 0 input last-output)
               acts (module/graph activations x)
               ;; split (i,o,f) and state
@@ -102,12 +99,12 @@ The big surprise with Flare has been that performance is relatively strong compa
 
 As an example, I compared a simple Bi-LSTM sentence classifier task in Flare and PyTorch using the [Stanford Large Movie Review Dataset](http://ai.stanford.edu/~amaas/data/sentiment/) and [GlVe Vectors](https://nlp.stanford.edu/projects/glove/). Here is the [Flare train/eval script](https://github.com/aria42/flare/blob/0532d095b52c513d32fce2b90d25dd8b33722b86/src/flare/examples/bilstm_tag.clj) and here's the [PyTorch one](https://gist.github.com/aria42/2ff21b8c567d12d979a64f3a37fd029d). Note that, each iterations runs forward/backwards on training data, but also evaluates on train/test sets, so there's a 3:1 mix of forward versus backward computations. On my recent MPB laptop, running both of these scripts yields the following average iteration time (over 10 iterations, 5 runs) and varied the LSTM hidden state size:
 
-| Library | LSTM Size | Iter Secs |
-| :---    |     :---: |      ---: |
-|---------|-----------|-----------|
-| Flare |        25 |      38.3 |
-| PyTorch |        25 |     120.5 |
-|         |           |           |
+
+| Library | Secs / Iter | Loss            | Train Acc. | Test Acc. |
+| :---    |       :---: |           :---: | :----:     | :---:     |
+|---------|-------------|-----------------|------------|-----------|
+| Flare   |          25 |            38.3 | xx.x       | xx.       |
+| PyTorch |          25 |           120.5 | xx.x       | xx.x      |
 
 
 ## Up Next
