@@ -28,6 +28,12 @@
     <meta name="description" content="{{ page.excerpt }}"/>
     {% endif %}
     <meta property="og:site_name" content="{{ site.inc.title }}">
+
+    {% if site.inc.google_font %}
+    <link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font }}" rel="stylesheet" type="text/css">
+    {% endif %}
+    <!--  Style -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
 
@@ -66,11 +72,6 @@
         </div>
     </footer>
 
- <!--  Style -->
- <link rel="stylesheet" type="text/css" href="/css/main.css">
- {% if site.inc.google_font %}
-   <link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font }}" rel="stylesheet" type="text/css">
- {% endif %}
  <!-- Icon book -->
  <link href="/webfonts/ss-social-circle.css" rel="stylesheet" />
 
