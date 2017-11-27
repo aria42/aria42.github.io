@@ -3,6 +3,7 @@ layout: post
 type: post
 title: "Flare: Clojure Dynamic Neural Net Library"
 date: 2017-11-27
+og_image: 'flare.png'
 excerpt: "I wrote Flare, a Dynamic Neural Net library in Clojure."
 ---
 
@@ -12,11 +13,11 @@ excerpt: "I wrote Flare, a Dynamic Neural Net library in Clojure."
 
 ## Why do we need another Neural Net library?
 
-It'd been a few years since I directly wrote a large piece of software, and one of my goals this year was to just that. One of the surprising things to have changed software-wise in that time is that Python has become the defato language for a lot of machine learning work. Presumably, a lot of this is due to strong auto-grad neural net libraries like [TensorFlow](https://www.tensorflow.org/), PyTorch, [DyNet](https://github.com/clab/dynet), and several others which delegate to native code for performance. While I really like PyTorch's clean interface and generally prefer it amongst popular neural net libraries, I wanted to primarily work in Clojure, which I'm incredibly productive in and has a lot to offer for building large ML-systems. 
+It'd been a few years since I directly wrote a large piece of software, and one of my goals this year was to just that. One of the surprising things to have changed software-wise in that time is that Python has become the defato language for a lot of machine learning work. Presumably, a lot of this is due to strong auto-grad neural net libraries like [TensorFlow](https://www.tensorflow.org/), PyTorch, [DyNet](https://github.com/clab/dynet), and several others which delegate to native code for performance. While I really like PyTorch's clean interface and generally prefer it amongst popular neural net libraries, I wanted to primarily work in Clojure, which I'm incredibly productive in and has a lot to offer for building large ML-systems.
 
 > "Since this was for fun, I made the unpragmatic choice to write something from scratch"
 
-After looking at some JVM options for dynamic neural nets[^dl4j], none quite felt right or at the same level of simplicity as PyTorch. Since this was for fun, I made the unpragmatic choice to write something from scratch. I think the result shares a lot with PyTorch, but feels like it was made for a functional programming language; it also appears for CPU workloads I've tried, that it's much faster. I think Clojure, and functional languages generally, have a lot to offer for ML and ML-related work, but I think the absence of a good non-Python choice has made that harder. 
+After looking at some JVM options for dynamic neural nets[^dl4j], none quite felt right or at the same level of simplicity as PyTorch. Since this was for fun, I made the unpragmatic choice to write something from scratch. I think the result shares a lot with PyTorch, but feels like it was made for a functional programming language; it also appears for CPU workloads I've tried, that it's much faster. I think Clojure, and functional languages generally, have a lot to offer for ML and ML-related work, but I think the absence of a good non-Python choice has made that harder.
 
 ## Some Simple Flare Examples
 
@@ -30,17 +31,17 @@ Like other auto-grad neural net libraries, you implicitly define a graph of oper
 
 (flare/init!)
 (def x (node/const [1 1]))                ;; define vector of length 2
-(def M (node/const [[1 2] [3 4] [5 6]]))  ;; define 3x2 matrix 
+(def M (node/const [[1 2] [3 4] [5 6]]))  ;; define 3x2 matrix
 (def z (cg/* M x))                        ;; z = Mx
 (:value Z)                                
 ;; returns [3.0, 7.0, 11.0]
-(:shape Z) 
+(:shape Z)
 ;; returns [3]
 {% endhighlight %}
 
 The computation happens *eagerly*, you don't need to call `forward` on any node, the operation happens as soon great the graph node is created.[^TF_EAGER] You can disable eager mode if you prefer lazier computation. Like PyTorch and others, nearly all the math operations actually happens in native code, in this case using Intel MKL via the awesome [Neanderthal library](https://github.com/uncomplicate/neanderthal), however you can plug in different tensor implementaitons (e.g., [ND4J](https://nd4j.org/)).
 
-While the above example is slightly verbose compared to PyTorch, for longer pieces of code you get more expressiveness. Like PyTorch, one of the core abstractions is a [*module*](https://github.com/aria42/flare/blob/master/src/flare/module.clj), which closes over parameters and builds a graph given inputs. In Flare, a module closes over other modules or parameters, and knows how to generate graphs from input(s). Here's what my [LSTM cell](https://en.wikipedia.org/wiki/Long_short-term_memory) implementation looks like (see [here](https://github.com/aria42/flare/blob/40e4fa0e27a2ddd5664e752640927d23f2e6d766/src/flare/rnn.clj#L17)), with some minor edits for clarity: 
+While the above example is slightly verbose compared to PyTorch, for longer pieces of code you get more expressiveness. Like PyTorch, one of the core abstractions is a [*module*](https://github.com/aria42/flare/blob/master/src/flare/module.clj), which closes over parameters and builds a graph given inputs. In Flare, a module closes over other modules or parameters, and knows how to generate graphs from input(s). Here's what my [LSTM cell](https://en.wikipedia.org/wiki/Long_short-term_memory) implementation looks like (see [here](https://github.com/aria42/flare/blob/40e4fa0e27a2ddd5664e752640927d23f2e6d766/src/flare/rnn.clj#L17)), with some minor edits for clarity:
 
 {% highlight clojure %}
 (defn lstm-cell [model input-dim hidden-dim]
@@ -101,7 +102,7 @@ After you build the classifier, you can check out the parameters using the model
 (def classifier (lstm-sent-classifier model emb 25 2))
 (for [[param-name parameter-node]]
   [param-name (:shape parameter-node)] model)
-;; ([lstm/input->gates/b [200]] [hidden->logits/W [2 50]] 
+;; ([lstm/input->gates/b [200]] [hidden->logits/W [2 50]]
 ;;   [lstm/input->gates/W [200 650]] [hidden->logits/b [2]])
 {% endhighlight %}
 
@@ -135,4 +136,4 @@ While I'm not 100% sure the world needs another neural net library, I'm interest
 <!-- Footnotes and Links -->
 
 [^dl4j]:I took a look at [DeepLearning4J](https://deeplearning4j.org/), and while it's clearly fully-featured, it doesn't feel as expressive as say PyTorch. Most of the Clojure wrappers I've seen don't address some of these issues at the core of DL4J.
-[^TF_EAGER]: TensorFlow recently developed [an eager computation mode](https://research.googleblog.com/2017/10/eager-execution-imperative-define-by.html) 
+[^TF_EAGER]: TensorFlow recently developed [an eager computation mode](https://research.googleblog.com/2017/10/eager-execution-imperative-define-by.html)
