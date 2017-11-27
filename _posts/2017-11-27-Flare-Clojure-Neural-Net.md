@@ -9,7 +9,7 @@ excerpt: "I wrote Flare, a Dynamic Neural Net library in Clojure."
 
 <img class="third-right no-bottom-margin" src="/images/flare.png" >
 
-**tl;dr**: *I wrote [Flare](https://github.com/aria42/flare), a Dynamic Neural Net library in Clojure. It currently can do some non-trivial things and it's pretty fast: about 2.5x-3x faster than [PyTorch](http://pytorch.org/) for a CPU-based [a simple Bi-LSTM classifier](https://github.com/aria42/flare/blob/master/src/flare/examples/bilstm_tag.clj) (although PyTorch has **many** more features and is more stable).*
+**tl;dr**: *I wrote [Flare](https://github.com/aria42/flare), a Dynamic Neural Net library in Clojure. It currently can do some non-trivial things and it's pretty fast: over 3x faster than [PyTorch](http://pytorch.org/) for a CPU-based [a simple Bi-LSTM classifier](https://github.com/aria42/flare/blob/master/src/flare/examples/bilstm_tag.clj) (although PyTorch has **many** more features and is more stable).*
 
 ## Why do we need another Neural Net library?
 
