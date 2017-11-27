@@ -52,7 +52,7 @@ While the above example is slightly verbose compared to PyTorch, for longer piec
         init-output (node/const "h0" zero)
         init-state (node/const "c0"  zero)]
     (reify RNNCell
-      (add-input! [this input last-output last-state]
+      (add-input [this input [last-output last-state]]
         (let [x (cg/concat 0 input last-output)
               gates (module/graph input->gates x)
               ;; split (i,o,f) and state
@@ -66,7 +66,7 @@ While the above example is slightly verbose compared to PyTorch, for longer piec
                      (cg/hadamard input-probs (cg/tanh state)))
               output (cg/hadamard output-probs (cg/tanh state))]
           [output state]))
-        (init-pair [this] [init-output init-state]))))
+        (init-hidden [this] [init-output init-state]))))
 {% endhighlight %}
 
 Despite the simplicitly, the above implementation is incredibly efficient since nearly all the floating-point operations happen in a single matrix-vector multiplication. Here's an example of building a simple bidirectional LSTM sentiment classifier for a given sentence using a module:
