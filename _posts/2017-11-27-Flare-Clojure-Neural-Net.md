@@ -16,7 +16,7 @@ It'd been a few years since I directly wrote a large piece of software, and one 
 
 > "Since this was for fun, I made the unpragmatic choice to write something from scratch"
 
-So when I wanted to I looked at some JVM options for dynamic neural nets[^dl4j], but none quite felt right or at the same level of simplicity as PyTorch. Since this was for fun, I made the unpragmatic choice to write something from scratch. I think the result shares a lot with PyTorch, but feels like it was made for a functional programming language. I think Clojure, and functional languages generally, have a lot to offer for ML and ML-related work, and I think the absence of a good non-Python choice has made that harder. 
+After looking at some JVM options for dynamic neural nets[^dl4j], none quite felt right or at the same level of simplicity as PyTorch. Since this was for fun, I made the unpragmatic choice to write something from scratch. I think the result shares a lot with PyTorch, but feels like it was made for a functional programming language; it also appears for CPU workloads I've tried, that it's much faster. I think Clojure, and functional languages generally, have a lot to offer for ML and ML-related work, but I think the absence of a good non-Python choice has made that harder. 
 
 ## Some Simple Flare Examples
 
@@ -128,9 +128,9 @@ The performance difference isn't suprising, but the difference in loss function 
 
 While I'm not 100% sure the world needs another neural net library, I'm interested in building this out more as long as it's fun and I'm hitting interesting challenges. Here's a list of things I'd like to get to
 
-* GPU Support: Neanderthal supports many platforms here, so this should be straightforward
-* Auto-Batching: I like the auto-batching idea, described in this [paper](https://arxiv.org/abs/1705.07860). I have the start of a auto-batching computation, which shows some sign of speeding up training substantially. I'm not quite happy with the design, and want to take some time to think through if there's a cleaner way to add this.
-* CNN-1D models: This is an obvious one. My first models built in Flare where all LSTM variants and I haven't had a need yet.
+* GPU Support: Neanderthal supports many platforms (CUDA, OpenCL, etc.), so this should be straightforward.
+* Auto-Batching: I like the auto-batching idea, described in this [paper](https://arxiv.org/abs/1705.07860). I have the start of a auto-batching computation, which shows some sign of speeding up training substantially. I'm not quite happy with the design, and want to take some time to think through if there's a cleaner approach to auto-batching.
+* CNN-1D models: This is an obvious one. My first models built in Flare where all LSTM variants and I just haven't had a need for this yet.
 
 <!-- Footnotes and Links -->
 
