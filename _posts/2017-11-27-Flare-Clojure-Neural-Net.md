@@ -4,7 +4,7 @@ type: post
 title: "Flare: Clojure Dynamic Neural Net Library"
 latex: true
 date: 2017-11-27
-excerpt: "I write a library for dynamic neural nets in Clojure."
+excerpt: "I wrote Flare, a Dynamic Neural Net library in Clojure."
 ---
 
 <img class="third-right no-bottom-margin" src="/images/flare.png" >
@@ -17,7 +17,7 @@ It'd been a few years since I directly wrote a large piece of software, and one 
 
 > "Since this was for fun, I made the unpragmatic choice to write something from scratch"
 
-So when I wanted to I looked at some JVM options for dynamic neural nets, but none quite felt right or at the same level of simplicity as PyTorch. Since this was for fun, I made the unpragmatic choice to write something from scratch. I think the result shares a lot with PyTorch, but feels like it was made for a functional programming language. I think Clojure, and functional languages generally, have a lot to offer for ML and ML-related work, and I think the absence of a good non-Python choice has made that harder. 
+So when I wanted to I looked at some JVM options for dynamic neural nets[^dl4j], but none quite felt right or at the same level of simplicity as PyTorch. Since this was for fun, I made the unpragmatic choice to write something from scratch. I think the result shares a lot with PyTorch, but feels like it was made for a functional programming language. I think Clojure, and functional languages generally, have a lot to offer for ML and ML-related work, and I think the absence of a good non-Python choice has made that harder. 
 
 ## Some Simple Flare Examples
 
@@ -135,6 +135,5 @@ While I'm not 100% sure the world needs another neural net library, I'm interest
 
 <!-- Footnotes and Links -->
 
-[^global-min]:This assumes there is a unique global minimizer for $f$. In practice, in practice unless $f$ is convex, the parameters used are whatever pops out the other side of an iterative algorithm.
-[^dl4j]:I took a look at [DeepLearning4J](https://deeplearning4j.org/), and while it's clearly fully-featured, it doesn't feel as expressive as say PyTorch. 
+[^dl4j]:I took a look at [DeepLearning4J](https://deeplearning4j.org/), and while it's clearly fully-featured, it doesn't feel as expressive as say PyTorch. Most of the Clojure wrappers I've seen don't address some of these issues at the core of DL4J.
 [^TF_EAGER]: TensorFlow recently developed [an eager computation mode](https://research.googleblog.com/2017/10/eager-execution-imperative-define-by.html) 
