@@ -117,7 +117,7 @@ As a simple example, I compared a simple Bi-LSTM sentence classifier task in Fla
 | Library | Secs / Iter |  Loss | Train Acc. | Test Acc. |
 | :---    |       :---: | :---: | :----:     | :---:     |
 |---------|-------------|-------|------------|-----------|
-| PyTorch |       362.7 |  1197 | 95.6%      | 94.1%     |
+| PyTorch |       362.7 |  1197 | 96.7%      | 95.4%     |
 | Flare   |       108.9 |   360 | 98.3%      | 96.7%     |
 
 
