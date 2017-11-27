@@ -2,7 +2,6 @@
 layout: post
 type: post
 title: "Flare: Clojure Dynamic Neural Net Library"
-latex: true
 date: 2017-11-27
 excerpt: "I wrote Flare, a Dynamic Neural Net library in Clojure."
 ---
